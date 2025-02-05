@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 const settingstyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         justifyContent: 'center',
         alignItems: 'center',
       },
@@ -18,6 +17,9 @@ const settingstyles = StyleSheet.create({
         width: '100%',
         height: '100%',
         borderRadius: 18,
+      },
+      overlay: {
+        ...StyleSheet.absoluteFillObject, // Makes it cover the entire ImageBackground
       },
 });
 

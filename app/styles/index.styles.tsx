@@ -16,6 +16,9 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 18,
   },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+  },
 
 });
 

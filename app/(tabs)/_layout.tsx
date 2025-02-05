@@ -1,14 +1,14 @@
 import { Tabs } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import  ImageProvider from '@/app/context/ImageContext';
+import  SettingsProvider from '@/app/context/SettingsContext';
 
 
 
 export default function RootLayout() {
   return (
-    <ImageProvider>
+    <SettingsProvider>
       <ImageLayout />
-    </ImageProvider>
+    </SettingsProvider>
   );
 }
 
@@ -22,8 +22,7 @@ function ImageLayout() {
         <Tabs.Screen
           name="index"
           options={{
-            title: 'Home',
-            headerShown: false,
+            title: "",
             tabBarIcon: ({ color, focused }) => (
               <Ionicons
                 name={focused ? 'home-sharp' : 'home-outline'}
