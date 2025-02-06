@@ -3,7 +3,9 @@ import { ImageSourcePropType, View } from 'react-native';
 interface PiecesObject {
   [key: string]: string | null;
 }
-
+interface ElementObject {
+  [key: string]: JSX.Element | null;
+}
 type SettingsContextType = {
   selectedImage: string | null;
   setSelectedImage: (image: string) => void;
@@ -23,6 +25,8 @@ type SettingsContextType = {
       | React.RefObject<View>[]
       | ((prev: React.RefObject<View>[]) => React.RefObject<View>[])
   ) => void;
+  elements: ElementObject;
+  setElements: React.Dispatch<React.SetStateAction<ElementObject>>
 };
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
@@ -99,9 +103,10 @@ const SettingsProvider = ({ children }) => {
   const [playerBlack, setPlayerBlack] = useState<boolean>(false);
   const PlaceholderImage = require('@/assets/images/background-image.jpg');
   const [lightDark, setLightDark] = useState<'Light' | 'Dark'>('Light');
-  const [pieces, setPieces] = useState<PiecesObject>(initialPositions);
+  const [pieces, setPieces] = useState<PiecesObject>({});
   const [takenPieces, setTakenPieces] = useState<string[]>([]);
   const [squareRefs, setSquareRefs] = useState<React.RefObject<View>[]>([]);
+  const [elements, setElements] = useState<ElementObject>({});
   return (
     <SettingsContext.Provider
       value={{
@@ -119,6 +124,8 @@ const SettingsProvider = ({ children }) => {
         setTakenPieces,
         squareRefs,
         setSquareRefs,
+        elements,
+        setElements
       }}
     >
       {children}
@@ -136,4 +143,4 @@ const useSettings = () => {
 
 export default SettingsProvider;
 
-export { PiecesObject, useSettings };
+export { PiecesObject, ElementObject, useSettings };

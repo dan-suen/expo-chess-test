@@ -4,15 +4,19 @@ const settingstyles = StyleSheet.create({
   container: {
     paddingTop: 50,
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
+
   },
   text: {
-    color: '#fff',
+    minWidth:200,
+    textAlign:"center"
   },
   footerContainer: {
     flex: 1 / 3,
     alignItems: 'center',
+    justifyContent:"flex-end",
+    maxHeight:200,
   },
   backgroundImage: {
     width: '100%',
@@ -26,11 +30,12 @@ const settingstyles = StyleSheet.create({
     borderRadius: 3,
     flex: 1,
     flexDirection: 'row',
-    maxHeight: 45,
+    maxHeight: 60,
     maxWidth: 200,
     justifyContent: 'center', 
     alignItems: 'center',
-    overflow:"hidden"
+    overflow:"hidden",
+    margin: 30
   },
 });
 

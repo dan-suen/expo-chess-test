@@ -21,7 +21,8 @@ export default function Settings() {
     setPieces,
     initialPositions,
     pieces, 
-    squareRefs
+    squareRefs,
+    setElements
   } = useSettings();
   const [playerBlackLocal, setPlayerBlackLocal] =
     useState<boolean>(playerBlack);
@@ -61,7 +62,7 @@ export default function Settings() {
           onPress={() => {
             setPieces(initialPositions);
             setPlayerBlack(playerBlackLocal);
-            createPieces(pieces, squareRefs);
+            createPieces(pieces, squareRefs, setElements);
           }}
         >
           New Game
@@ -117,8 +118,8 @@ export default function Settings() {
           ]}
           onPress={() => setLightDark(lightDark === 'Light' ? 'Dark' : 'Light')}
         >
-          <Text style={{ color: lightDark === 'Light' ? 'white' : 'black' }}>
-            {lightDark == 'Light' ? 'Dark' : 'Light'} Mode
+          <Text style={[{ color: lightDark === 'Light' ? 'white' : 'black' }, settingstyles.text]}>
+            {lightDark === 'Light' ? 'Dark' : 'Light'} Mode
           </Text>
           <Icon
             name={lightDark === 'Light' ? 'dark-mode' : 'sunny'}

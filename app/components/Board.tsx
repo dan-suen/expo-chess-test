@@ -39,11 +39,11 @@ const createBoard = () => {
 const renderSquare = (
   object: MyObject,
   squareSize: number,
-  colIndex: number
+  colIndex: number,
 ) => {
   const squareRef = useRef<View>(null);
   const id = String(object.col || '') + String(object.row || '');
-  const { setSquareRefs } = useSettings();
+  const { setSquareRefs, elements } = useSettings();
   useEffect(() => {
     if (squareRef.current) {
       squareRef.current.id = id;
@@ -55,7 +55,7 @@ const renderSquare = (
       );
     }
   }, []);
-  const innerText = id.length === 1 ? id : '';
+  const innerText = id.length === 1 ? id : id.length === 2 ? elements[id]:"";
   return (
     <View
       key={colIndex}
