@@ -11,6 +11,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 18,
+    flex:1,
+    justifyContent:"center",
+    alignItems:"center"
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

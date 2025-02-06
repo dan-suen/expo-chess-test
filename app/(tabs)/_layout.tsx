@@ -22,7 +22,7 @@ function ImageLayout() {
         <Tabs.Screen
           name="index"
           options={{
-            title: "",
+            title: "Chess EXPO",
             tabBarIcon: ({ color, focused }) => (
               <Ionicons
                 name={focused ? 'home-sharp' : 'home-outline'}

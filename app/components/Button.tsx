@@ -4,11 +4,10 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 type Props = {
   label: string;
-  theme?: 'primary';
   onPress?: () => void;
 };
 
-export default function Button({ label, theme, onPress }: Props) {
+export default function Button({ label, onPress }: Props) {
   return (
     <View
       style={[
