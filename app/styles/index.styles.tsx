@@ -7,10 +7,6 @@ const styles = StyleSheet.create({
     fontFamily: '-apple-system',
     alignItems: 'center',
   },
-
-  imageContainer: {
-    flex: 1,
-  },
   backgroundImage: {
     width: '100%',
     height: '100%',
