@@ -8,6 +8,7 @@ const buttonStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 3,
+        margin: 3
       },
       button: {
         borderRadius: 10,

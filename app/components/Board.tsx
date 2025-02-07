@@ -26,8 +26,8 @@ const createBoard = () => {
         object.row = row - 1;
         object.col = letters[col - 2];
         object.color = (row % 2 === 0 ? !(col % 2 === 0) : col % 2 === 0)
-          ? '#ffffff'
-          : '#000000';
+          ? 'brown'
+          : 'gray';
       }
       rowArray.push(object);
     }
@@ -36,14 +36,19 @@ const createBoard = () => {
   return board;
 };
 
-const renderSquare = (
-  object: MyObject,
-  squareSize: number,
-  colIndex: number,
-) => {
+const Square = ({
+  object,
+  squareSize,
+  colIndex,
+}: {
+  object: MyObject;
+  squareSize: number;
+  colIndex: number;
+}) => {
   const squareRef = useRef<View>(null);
   const id = String(object.col || '') + String(object.row || '');
   const { setSquareRefs, elements } = useSettings();
+
   useEffect(() => {
     if (squareRef.current) {
       squareRef.current.id = id;
@@ -55,7 +60,9 @@ const renderSquare = (
       );
     }
   }, []);
-  const innerText = id.length === 1 ? id : id.length === 2 ? elements[id]:"";
+
+  const innerText = id.length === 1 ? id : id.length === 2 ? elements[id] : "";
+
   return (
     <View
       key={colIndex}
@@ -74,5 +81,6 @@ const renderSquare = (
   );
 };
 
+
 export default createBoard;
-export { renderSquare };
+export { Square };

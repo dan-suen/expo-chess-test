@@ -2,9 +2,8 @@ import { StyleSheet } from 'react-native';
 
 const settingstyles = StyleSheet.create({
   container: {
-    paddingTop: 50,
     flex: 1,
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     alignItems: 'center',
 
   },
@@ -13,6 +12,7 @@ const settingstyles = StyleSheet.create({
     textAlign:"center"
   },
   footerContainer: {
+    marginBottom:20,
     flex: 1 / 3,
     alignItems: 'center',
     justifyContent:"flex-end",
@@ -37,6 +37,9 @@ const settingstyles = StyleSheet.create({
     overflow:"hidden",
     margin: 30
   },
+  body: {
+    marginTop:20
+  }
 });
 
 export default settingstyles;

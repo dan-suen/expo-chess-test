@@ -5,9 +5,10 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 type Props = {
   label: string;
   onPress?: () => void;
+  name:string;
 };
 
-export default function Button({ label, onPress }: Props) {
+export default function Button({ label, onPress, name }: Props) {
   return (
     <View
       style={[
@@ -20,7 +21,7 @@ export default function Button({ label, onPress }: Props) {
         onPress={onPress}
       >
         <FontAwesome
-          name="picture-o"
+          name={name}
           size={18}
           color="#25292e"
           style={buttonStyles.buttonIcon}

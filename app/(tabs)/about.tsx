@@ -4,7 +4,7 @@ import { ImageBackground } from 'react-native';
 import aboutStyles from '../styles/about.styles';
 
 export default function AboutScreen() {
-  const { selectedImage, PlaceholderImage, lightDark } = useSettings();
+  const { selectedImage, PlaceholderImage, lightDark} = useSettings();
   const imageSource = selectedImage ? { uri: selectedImage } : PlaceholderImage;
   return (
     <ImageBackground source={imageSource} style={aboutStyles.backgroundImage}>

@@ -1,8 +1,9 @@
 import { Tabs } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import  SettingsProvider from '@/app/context/SettingsContext';
-
-
+import  SettingsProvider, { useSettings } from '@/app/context/SettingsContext';
+import { useEffect } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
+import { View, Text } from 'react-native';
 
 export default function RootLayout() {
   return (
@@ -13,6 +14,199 @@ export default function RootLayout() {
 }
 
 function ImageLayout() {
+  const {appReady, setAppReady} = useSettings(); 
+  SplashScreen.preventAutoHideAsync();
+  useEffect(() => {
+    const prepareApp = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await SplashScreen.hideAsync();
+    };
+
+    prepareApp().then(() => setAppReady(true));
+  }, []);
+  console.log("App Ready: " + appReady)
+  if (!appReady) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          height: '100%',
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+          }}
+        >
+          Chess EXPO
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+            paddingLeft: 40,
+            color: 'gray',
+          }}
+        >
+          Chess EXPO
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+            paddingLeft: 80,
+            color: 'blue',
+          }}
+        >
+          Chess EXPO
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+          }}
+        >
+          Chess EXPO
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+            paddingLeft: 40,
+            color: 'gray',
+          }}
+        >
+          Chess EXPO
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+            paddingLeft: 80,
+            color: 'blue',
+          }}
+        >
+          Chess EXPO
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+          }}
+        >
+          Chess EXPO
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+            paddingLeft: 40,
+            color: 'gray',
+          }}
+        >
+          Chess EXPO
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+            paddingLeft: 80,
+            color: 'blue',
+          }}
+        >
+          Chess EXPO
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+          }}
+        >
+          Chess EXPO
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+            paddingLeft: 40,
+            color: 'gray',
+          }}
+        >
+          Chess EXPO
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+            paddingLeft: 80,
+            color: 'blue',
+          }}
+        >
+          Chess EXPO
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+          }}
+        >
+          Chess EXPO
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+            paddingLeft: 40,
+            color: 'gray',
+          }}
+        >
+          Chess EXPO
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'justify',
+            fontFamily: 'Arial',
+            fontWeight: 900,
+            paddingLeft: 80,
+            color: 'blue',
+          }}
+        >
+          Chess EXPO
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <Tabs
         screenOptions={{
@@ -23,6 +217,7 @@ function ImageLayout() {
           name="index"
           options={{
             title: "Chess EXPO",
+            headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <Ionicons
                 name={focused ? 'home-sharp' : 'home-outline'}

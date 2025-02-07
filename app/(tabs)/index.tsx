@@ -1,16 +1,19 @@
 import styles from '../styles/index.styles';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { useSettings } from '@/app/context/SettingsContext';
 import { ImageBackground, Dimensions } from 'react-native';
-import createBoard, { renderSquare } from '../components/Board';
+import createBoard, { Square } from '../components/Board';
 import boardStyles from '../styles/Board.styles';
 import React from 'react';
 
+
+
 function App() {
-  const { selectedImage, PlaceholderImage, lightDark, playerBlack } =
+  const { selectedImage, PlaceholderImage, lightDark, playerBlack} =
     useSettings();
   const imageSource = selectedImage ? { uri: selectedImage } : PlaceholderImage;
   const squareSize = Dimensions.get('window').width / 10;
+  
   return (
     <ImageBackground source={imageSource} style={styles.backgroundImage}>
       <View
@@ -48,7 +51,7 @@ function App() {
                   {row
                     .map((square, colIndex) => (
                       <React.Fragment key={colIndex}>
-                        {renderSquare(square, squareSize, colIndex)}
+                        <Square object={square} squareSize={squareSize} colIndex = {colIndex}/>
                       </React.Fragment>
                     ))
                     .reverse()}
@@ -65,7 +68,7 @@ function App() {
               >
                 {row.map((square, colIndex) => (
                   <React.Fragment key={colIndex}>
-                    {renderSquare(square, squareSize, colIndex)}
+                    <Square object={square} squareSize={squareSize} colIndex = {colIndex}/>
                   </React.Fragment>
                 ))}
               </View>

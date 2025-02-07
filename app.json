@@ -18,6 +18,7 @@
       },
       "package": "com.derpderp91357.Chessexpo"
     },
+    "jsEngine": "hermes",
     "web": {
       "bundler": "metro",
       "output": "static",
