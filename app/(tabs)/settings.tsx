@@ -30,7 +30,7 @@ export default function Settings() {
     isPlaying,
     setIsPlaying,
     selectMusic,
-    setCurrentSoundFile
+    resetMusic
   } = useSettings();
   const [playerBlackLocal, setPlayerBlackLocal] =
     useState<boolean>(playerBlack);
@@ -58,7 +58,7 @@ export default function Settings() {
   const resetImageAsync = async () => {
     setSelectedImage(null);
     try {
-      await AsyncStorage.removeItem('backgroundImage'); // Completely remove the key
+      await AsyncStorage.removeItem('backgroundImage');
     } catch (error) {
       console.error('Error removing background image:', error);
     }
@@ -187,7 +187,7 @@ export default function Settings() {
             name={isPlaying ? 'pause' : 'play'}
           />
           <Button label="Select Music" onPress={selectMusic} name="upload" />
-          <Button label="Reset Music" onPress={()=> setCurrentSoundFile(null)} name="headphones" />
+          <Button label="Reset Music" onPress={resetMusic} name="headphones" />
         </View>
       </View>
     </ImageBackground>

@@ -14,8 +14,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
       },
+      "permissions": ["READ_EXTERNAL_STORAGE"],
       "package": "com.derpderp91357.Chessexpo"
     },
     "jsEngine": "hermes",

@@ -18,7 +18,7 @@ function ImageLayout() {
   SplashScreen.preventAutoHideAsync();
   useEffect(() => {
     const prepareApp = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, 7000));
       await SplashScreen.hideAsync();
     };
 

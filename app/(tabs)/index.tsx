@@ -1,10 +1,12 @@
 import styles from '../styles/index.styles';
-import { View, Text } from 'react-native';
+import { View} from 'react-native';
 import { useSettings } from '@/app/context/SettingsContext';
 import { ImageBackground, Dimensions } from 'react-native';
 import createBoard, { Square } from '../components/Board';
 import boardStyles from '../styles/Board.styles';
 import React from 'react';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 
 
@@ -13,7 +15,17 @@ function App() {
     useSettings();
   const imageSource = selectedImage ? { uri: selectedImage } : PlaceholderImage;
   const squareSize = Dimensions.get('window').width / 10;
-  
+  const [engineResponse, setEngineResponse] = useState('');
+  useEffect(() => {
+    axios.post('http://localhost:5000/uci', { command: 'uci' })
+      .then(response => {
+        console.log(response)
+        setEngineResponse(response.data.response);
+      })
+      .catch(error => {
+        console.error('Error communicating with the server:', error);
+      });
+  }, []);
   return (
     <ImageBackground source={imageSource} style={styles.backgroundImage}>
       <View

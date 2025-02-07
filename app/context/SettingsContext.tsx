@@ -48,6 +48,7 @@ type SettingsContextType = {
   currentSoundFile: string | null;
   setCurrentSoundFile: React.Dispatch<React.SetStateAction<string | null>>;
   selectMusic: () => void;
+  resetMusic: () => void;
 };
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
@@ -155,6 +156,7 @@ const SettingsProvider = ({ children }) => {
     }
   };
   const loadMusic = async () => {
+    console.log("called")
     const soundFile = currentSoundFile
       ? { uri: currentSoundFile }
       : require(PlaceholderMusic);
@@ -175,7 +177,7 @@ const SettingsProvider = ({ children }) => {
   const selectMusic = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
-        type: '*audio/*',
+        type: '*/*',
       });
       if (result.canceled === true) {
         console.log('File selection was canceled');
@@ -186,12 +188,16 @@ const SettingsProvider = ({ children }) => {
       if (fileExtension && allowedExtensions.includes(`.${fileExtension}`)) {
         setCurrentSoundFile(result.assets[0].uri);
         await AsyncStorage.setItem('backgroundmusic', result.assets[0].uri);
-        console.log("music set")
       }
     } catch (err) {
       console.error('Error picking file');
     }
   };
+  const resetMusic = async () => {
+    setCurrentSoundFile(null);
+    await AsyncStorage.removeItem('backgroundmusic');
+  };
+
 
   useEffect(() => {
     const fetchBackgroundImage = async () => {
@@ -199,8 +205,9 @@ const SettingsProvider = ({ children }) => {
       if (imageUri) setSelectedImage(imageUri);
     };
     const fetchBackgroundMusic = async () => {
+      console.log("This is " + isFirstRender.current)
       const musicUri = await loadDefaultMusic();
-      if (musicUri) setCurrentSoundFile(musicUri);
+      musicUri ? setCurrentSoundFile(musicUri) : loadMusic()
     };
 
     fetchBackgroundImage();
@@ -243,6 +250,7 @@ const SettingsProvider = ({ children }) => {
         currentSoundFile,
         setCurrentSoundFile,
         selectMusic,
+        resetMusic
       }}
     >
       {children}
