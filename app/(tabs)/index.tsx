@@ -15,18 +15,18 @@ function App() {
     useSettings();
   const imageSource = selectedImage ? { uri: selectedImage } : PlaceholderImage;
   const squareSize = Dimensions.get('window').width / 10;
-  const [engineResponse, setEngineResponse] = useState('');
-  useEffect(() => {
-    axios.post('http://localhost:5000/uci', { command: 'uci' })
-      .then(response => {
-        console.log(response)
-        setEngineResponse(response.data.response);
-      })
-      .catch(error => {
-        console.error('Error communicating with the server:', error);
-      });
-  }, []);
-  return (
+  // const [engineResponse, setEngineResponse] = useState('');
+  // useEffect(() => {
+  //   axios.post('http://10.17.93.234/uci', { command: 'Start' })
+  //     .then(response => {
+  //       console.log("it worked")
+  //       setEngineResponse(response.data.response);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error communicating with the server:', error);
+  //     });
+  // }, []);
+  // return (
     <ImageBackground source={imageSource} style={styles.backgroundImage}>
       <View
         style={[

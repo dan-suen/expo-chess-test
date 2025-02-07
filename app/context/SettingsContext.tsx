@@ -156,7 +156,6 @@ const SettingsProvider = ({ children }) => {
     }
   };
   const loadMusic = async () => {
-    console.log("called")
     const soundFile = currentSoundFile
       ? { uri: currentSoundFile }
       : require(PlaceholderMusic);
@@ -184,7 +183,7 @@ const SettingsProvider = ({ children }) => {
         return;
       }
       const allowedExtensions = ['.mp3', '.flac'];
-      const fileExtension = result.output[0].name.split('.').pop();
+      const fileExtension = result.assets[0].name.split('.').pop();
       if (fileExtension && allowedExtensions.includes(`.${fileExtension}`)) {
         setCurrentSoundFile(result.assets[0].uri);
         await AsyncStorage.setItem('backgroundmusic', result.assets[0].uri);
@@ -205,7 +204,6 @@ const SettingsProvider = ({ children }) => {
       if (imageUri) setSelectedImage(imageUri);
     };
     const fetchBackgroundMusic = async () => {
-      console.log("This is " + isFirstRender.current)
       const musicUri = await loadDefaultMusic();
       musicUri ? setCurrentSoundFile(musicUri) : loadMusic()
     };
