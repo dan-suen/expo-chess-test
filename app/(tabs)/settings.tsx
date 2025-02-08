@@ -25,12 +25,12 @@ export default function Settings() {
     pieces,
     squareRefs,
     setElements,
-    setActive,
     currentSound,
     isPlaying,
     setIsPlaying,
     selectMusic,
-    resetMusic
+    resetMusic,
+    getStockfishMove
   } = useSettings();
   const [playerBlackLocal, setPlayerBlackLocal] =
     useState<boolean>(playerBlack);
@@ -100,7 +100,8 @@ export default function Settings() {
           onPress={() => {
             setPieces(initialPositions);
             setPlayerBlack(playerBlackLocal);
-            createPieces(pieces, squareRefs, setElements, setActive, activeRef);
+            createPieces(pieces, squareRefs, setElements, activeRef);
+            getStockfishMove("New");
           }}
           >
           New Game

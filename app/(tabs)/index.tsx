@@ -1,32 +1,30 @@
 import styles from '../styles/index.styles';
-import { View} from 'react-native';
+import { View } from 'react-native';
 import { useSettings } from '@/app/context/SettingsContext';
 import { ImageBackground, Dimensions } from 'react-native';
 import createBoard, { Square } from '../components/Board';
 import boardStyles from '../styles/Board.styles';
 import React from 'react';
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-
+import { useEffect, useRef } from 'react';
 
 
 function App() {
-  const { selectedImage, PlaceholderImage, lightDark, playerBlack} =
-    useSettings();
+  const {
+    selectedImage,
+    PlaceholderImage,
+    lightDark,
+    playerBlack,
+    getStockfishMove,
+  } = useSettings();
   const imageSource = selectedImage ? { uri: selectedImage } : PlaceholderImage;
   const squareSize = Dimensions.get('window').width / 10;
-  // const [engineResponse, setEngineResponse] = useState('');
-  // useEffect(() => {
-  //   axios.post('http://10.17.93.234/uci', { command: 'Start' })
-  //     .then(response => {
-  //       console.log("it worked")
-  //       setEngineResponse(response.data.response);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error communicating with the server:', error);
-  //     });
-  // }, []);
-  // return (
+   useEffect(() => {
+      if(playerBlack) {
+        getStockfishMove("First")
+      } 
+    }, []);
+  
+  return (
     <ImageBackground source={imageSource} style={styles.backgroundImage}>
       <View
         style={[
@@ -63,7 +61,11 @@ function App() {
                   {row
                     .map((square, colIndex) => (
                       <React.Fragment key={colIndex}>
-                        <Square object={square} squareSize={squareSize} colIndex = {colIndex}/>
+                        <Square
+                          object={square}
+                          squareSize={squareSize}
+                          colIndex={colIndex}
+                        />
                       </React.Fragment>
                     ))
                     .reverse()}
@@ -80,7 +82,11 @@ function App() {
               >
                 {row.map((square, colIndex) => (
                   <React.Fragment key={colIndex}>
-                    <Square object={square} squareSize={squareSize} colIndex = {colIndex}/>
+                    <Square
+                      object={square}
+                      squareSize={squareSize}
+                      colIndex={colIndex}
+                    />
                   </React.Fragment>
                 ))}
               </View>

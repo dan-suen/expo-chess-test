@@ -9,6 +9,12 @@ import { ImageSourcePropType, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Audio } from 'expo-av';
 import * as DocumentPicker from 'expo-document-picker';
+import { NativeModules } from 'react-native';
+import { Chess } from 'chess.js';
+
+const chess = new Chess();
+
+const { StockfishModule } = NativeModules;
 
 interface PiecesObject {
   [key: string]: string | null;
@@ -39,8 +45,6 @@ type SettingsContextType = {
   setElements: React.Dispatch<React.SetStateAction<ElementObject>>;
   appReady: boolean;
   setAppReady: React.Dispatch<React.SetStateAction<boolean>>;
-  active: string | null;
-  setActive: React.Dispatch<React.SetStateAction<string | null>>;
   currentSound: React.MutableRefObject<Audio.Sound | null>;
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
@@ -49,6 +53,8 @@ type SettingsContextType = {
   setCurrentSoundFile: React.Dispatch<React.SetStateAction<string | null>>;
   selectMusic: () => void;
   resetMusic: () => void;
+  chess: Chess;
+  getStockfishMove: (command:string) => void;
 };
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
@@ -119,7 +125,38 @@ const initialPositions: PiecesObject = {
   g8: 'Bknight',
   h8: 'Brook',
 };
-
+async function getStockfishMove(command: string) {
+  try {
+    if (command === 'Start') {
+      await StockfishModule.sendCommand('uci\n');
+      await StockfishModule.sendCommand('isready\n');
+      console.log({ response: 'Connection begins' });
+    } else if (command === 'End') {
+      //console.log("here")
+      await StockfishModule.sendCommand('stop\n');
+      chess.reset();
+      console.log({ response: 'Connection terminated' });
+    } else if (command === 'New') {
+      await StockfishModule.sendCommand('ucinewgame\n');
+      await StockfishModule.sendCommand('isready\n');
+      chess.reset();
+      console.log({ response: 'Stockfish reset.' });
+    } else if (command === 'First') {
+      await StockfishModule.sendCommand('position startpos\n');
+      await StockfishModule.sendCommand('go depth 10\n');
+      const response = await StockfishModule.sendCommand('go depth 10');
+      console.log('Stockfish response:', chess.move({from: response.slice(0,2), to: response.slice(2)}));
+    } else {
+      await StockfishModule.sendCommand('uci');
+      await StockfishModule.sendCommand('isready');
+      await StockfishModule.sendCommand(`position fen 8/3P3k/n2K3p/2p3n1/1b4N1/2p1p1P1/8/3B4 w - - 0 1 moves g4f6 h7g7 f6h5 g7g6 d1c2`);
+      const response = await StockfishModule.sendCommand('go depth 10');
+      console.log('Stockfish response:', chess.move({from: response.slice(0,2), to: response.slice(2)}));
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
 const SettingsProvider = ({ children }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [playerBlack, setPlayerBlack] = useState<boolean>(false);
@@ -130,7 +167,6 @@ const SettingsProvider = ({ children }) => {
   const [squareRefs, setSquareRefs] = useState<React.RefObject<View>[]>([]);
   const [elements, setElements] = useState<ElementObject>({});
   const [appReady, setAppReady] = useState<boolean>(false);
-  const [active, setActive] = useState<string | null>(null);
 
   const currentSound = useRef<Audio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
@@ -159,13 +195,13 @@ const SettingsProvider = ({ children }) => {
     const soundFile = currentSoundFile
       ? { uri: currentSoundFile }
       : require(PlaceholderMusic);
-      if (!currentSound.current) {
-        const { sound } = await Audio.Sound.createAsync(soundFile, {
-          shouldPlay: true,
-        });
-        await sound.setIsLoopingAsync(true);
-        currentSound.current = sound;
-      } else {
+    if (!currentSound.current) {
+      const { sound } = await Audio.Sound.createAsync(soundFile, {
+        shouldPlay: true,
+      });
+      await sound.setIsLoopingAsync(true);
+      currentSound.current = sound;
+    } else {
       await currentSound.current.stopAsync();
       await currentSound.current.unloadAsync();
       await currentSound.current.loadAsync(soundFile);
@@ -197,7 +233,6 @@ const SettingsProvider = ({ children }) => {
     await AsyncStorage.removeItem('backgroundmusic');
   };
 
-
   useEffect(() => {
     const fetchBackgroundImage = async () => {
       const imageUri = await loadBackgroundImage();
@@ -205,11 +240,12 @@ const SettingsProvider = ({ children }) => {
     };
     const fetchBackgroundMusic = async () => {
       const musicUri = await loadDefaultMusic();
-      musicUri ? setCurrentSoundFile(musicUri) : loadMusic()
+      musicUri ? setCurrentSoundFile(musicUri) : loadMusic();
     };
 
     fetchBackgroundImage();
     fetchBackgroundMusic();
+    getStockfishMove("Start")
   }, []);
   useEffect(() => {
     if (isFirstRender.current) {
@@ -218,6 +254,7 @@ const SettingsProvider = ({ children }) => {
     }
     loadMusic();
   }, [currentSoundFile]);
+
   return (
     <SettingsContext.Provider
       value={{
@@ -239,8 +276,6 @@ const SettingsProvider = ({ children }) => {
         setElements,
         appReady,
         setAppReady,
-        active,
-        setActive,
         currentSound,
         isPlaying,
         setIsPlaying,
@@ -248,7 +283,9 @@ const SettingsProvider = ({ children }) => {
         currentSoundFile,
         setCurrentSoundFile,
         selectMusic,
-        resetMusic
+        resetMusic,
+        chess,
+        getStockfishMove
       }}
     >
       {children}
