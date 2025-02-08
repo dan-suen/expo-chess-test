@@ -9,12 +9,11 @@ import { ImageSourcePropType, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Audio } from 'expo-av';
 import * as DocumentPicker from 'expo-document-picker';
-import { NativeModules } from 'react-native';
 import { Chess } from 'chess.js';
+import StockfishModule from "@/modules/stockfish";
 
 const chess = new Chess();
 
-const { StockfishModule } = NativeModules;
 
 interface PiecesObject {
   [key: string]: string | null;
