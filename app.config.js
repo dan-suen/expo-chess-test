@@ -10,7 +10,7 @@ export default {
   newArchEnabled: true,
   ios: {
     supportsTablet: true,
-    bundleIdentifier: ISDEV ? 'com.derpderp91357.Chessexpo.dev' :'com.derpderp91357.Chessexpo'
+    bundleIdentifier: IS_DEV ? 'com.derpderp91357.Chessexpo.dev' :'com.derpderp91357.Chessexpo'
   },
   android: {
     adaptiveIcon: {
@@ -18,7 +18,7 @@ export default {
       backgroundColor: '#ffffff',
     },
     permissions: ['READ_EXTERNAL_STORAGE'],
-    package: ISDEV ? 'com.derpderp91357.Chessexpo.dev' :'com.derpderp91357.Chessexpo'
+    package: IS_DEV ? 'com.derpderp91357.Chessexpo.dev' :'com.derpderp91357.Chessexpo'
   },
   jsEngine: 'hermes',
   web: {
