@@ -5,7 +5,7 @@ import { ImageBackground, Dimensions } from 'react-native';
 import createBoard, { Square } from '../components/Board';
 import boardStyles from '../styles/Board.styles';
 import React from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect} from 'react';
 
 
 function App() {
@@ -14,7 +14,9 @@ function App() {
     PlaceholderImage,
     lightDark,
     playerBlack,
+    pieces,
     getStockfishMove,
+    chess
   } = useSettings();
   const imageSource = selectedImage ? { uri: selectedImage } : PlaceholderImage;
   const squareSize = Dimensions.get('window').width / 10;
@@ -22,8 +24,7 @@ function App() {
       if(playerBlack) {
         getStockfishMove("First")
       } 
-    }, []);
-  
+    }, [playerBlack]);
   return (
     <ImageBackground source={imageSource} style={styles.backgroundImage}>
       <View

@@ -5,19 +5,23 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import { ImageSourcePropType, View, AppState } from 'react-native';
+import { ImageSourcePropType, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Audio } from 'expo-av';
 import * as DocumentPicker from 'expo-document-picker';
 import { Chess } from 'chess.js';
 //import StockfishModule from "@/modules/stockfish";
 import StockfishModule from "@/app/function/serverpost";
+import createPieces from '../components/Pieces';
+import { FontAwesome6 } from '@expo/vector-icons';
 
 const chess = new Chess();
 
 
-interface PiecesObject {
-  [key: string]: string | null;
+interface Piece {
+  square: string;  
+  type: string;    
+  color: string;   
 }
 interface ElementObject {
   [key: string]: JSX.Element | null;
@@ -30,9 +34,8 @@ type SettingsContextType = {
   setLightDark: (mode: 'Light' | 'Dark') => void;
   playerBlack: boolean;
   setPlayerBlack: (mode: boolean) => void;
-  pieces: PiecesObject;
-  setPieces: (object: PiecesObject) => void;
-  initialPositions: PiecesObject;
+  pieces: (Piece|null)[][];
+  setPieces: (object: (Piece|null)[][]) => void;
   takenPieces: string[];
   setTakenPieces: (pieces: string[]) => void;
   squareRefs: React.RefObject<View>[];
@@ -55,76 +58,12 @@ type SettingsContextType = {
   resetMusic: () => void;
   chess: Chess;
   getStockfishMove: (command:string) => void;
+  activeRef:React.RefObject<typeof FontAwesome6 | null>;
 };
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
 
-const initialPositions: PiecesObject = {
-  a1: 'WR',
-  b1: 'WN',
-  c1: 'WB',
-  d1: 'WQ',
-  e1: 'WK',
-  f1: 'WB',
-  g1: 'WN',
-  h1: 'WR',
-  a2: 'WP',
-  b2: 'WP',
-  c2: 'WP',
-  d2: 'WP',
-  e2: 'WP',
-  f2: 'WP',
-  g2: 'WP',
-  h2: 'WP',
-  a3: null,
-  b3: null,
-  c3: null,
-  d3: null,
-  e3: null,
-  f3: null,
-  g3: null,
-  h3: null,
-  a4: null,
-  b4: null,
-  c4: null,
-  d4: null,
-  e4: null,
-  f4: null,
-  g4: null,
-  h4: null,
-  a5: null,
-  b5: null,
-  c5: null,
-  d5: null,
-  e5: null,
-  f5: null,
-  g5: null,
-  h5: null,
-  a6: null,
-  b6: null,
-  c6: null,
-  d6: null,
-  e6: null,
-  f6: null,
-  g6: null,
-  h6: null,
-  a7: 'BP',
-  b7: 'BP',
-  c7: 'BP',
-  d7: 'BP',
-  e7: 'BP',
-  f7: 'BP',
-  g7: 'BP',
-  h7: 'BP',
-  a8: 'BR',
-  b8: 'BN',
-  c8: 'BB',
-  d8: 'BQ',
-  e8: 'BK',
-  f8: 'BB',
-  g8: 'BN',
-  h8: 'BR',
-};
+
 async function getStockfishMove(command: string) {
   try {
     return StockfishModule.sendCommand(command, chess);
@@ -137,15 +76,15 @@ const SettingsProvider = ({ children }) => {
   const [playerBlack, setPlayerBlack] = useState<boolean>(false);
   const PlaceholderImage = require('@/assets/images/background-image.jpg');
   const [lightDark, setLightDark] = useState<'Light' | 'Dark'>('Light');
-  const [pieces, setPieces] = useState<PiecesObject>(initialPositions);
+  const [pieces, setPieces] = useState<(Piece|null)[][]>(chess.board());
   const [takenPieces, setTakenPieces] = useState<string[]>([]);
   const [squareRefs, setSquareRefs] = useState<React.RefObject<View>[]>([]);
   const [elements, setElements] = useState<ElementObject>({});
   const [appReady, setAppReady] = useState<boolean>(false);
-
   const currentSound = useRef<Audio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const PlaceholderMusic = '../../assets/06.mp3';
+  const activeRef = useRef<typeof FontAwesome6 | null>(null);
   const [currentSoundFile, setCurrentSoundFile] = useState<string | null>(null);
   const isFirstRender = useRef(true);
   const loadBackgroundImage = async () => {
@@ -221,6 +160,7 @@ const SettingsProvider = ({ children }) => {
     fetchBackgroundImage();
     fetchBackgroundMusic();
   }, []);
+
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
@@ -228,7 +168,13 @@ const SettingsProvider = ({ children }) => {
     }
     loadMusic();
   }, [currentSoundFile]);
-
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    createPieces(pieces, squareRefs, setElements, activeRef);
+  }, [pieces]);
   return (
     <SettingsContext.Provider
       value={{
@@ -241,7 +187,6 @@ const SettingsProvider = ({ children }) => {
         setPlayerBlack,
         pieces,
         setPieces,
-        initialPositions,
         takenPieces,
         setTakenPieces,
         squareRefs,
@@ -259,7 +204,8 @@ const SettingsProvider = ({ children }) => {
         selectMusic,
         resetMusic,
         chess,
-        getStockfishMove
+        getStockfishMove,
+        activeRef
       }}
     >
       {children}
@@ -277,4 +223,4 @@ const useSettings = () => {
 
 export default SettingsProvider;
 
-export { PiecesObject, ElementObject, useSettings };
+export { Piece, ElementObject, useSettings };

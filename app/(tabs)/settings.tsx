@@ -10,6 +10,7 @@ import { useState, useRef } from 'react';
 import createPieces from '../components/Pieces';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Fontawesome6 from '@expo/vector-icons/FontAwesome6';
+import { Chess } from 'chess.js';
 
 export default function Settings() {
   const {
@@ -21,7 +22,6 @@ export default function Settings() {
     playerBlack,
     setPlayerBlack,
     setPieces,
-    initialPositions,
     pieces,
     squareRefs,
     setElements,
@@ -30,13 +30,14 @@ export default function Settings() {
     setIsPlaying,
     selectMusic,
     resetMusic,
-    getStockfishMove
+    getStockfishMove,
+    chess,
+    activeRef
   } = useSettings();
   const [playerBlackLocal, setPlayerBlackLocal] =
     useState<boolean>(playerBlack);
 
   const imageSource = selectedImage ? { uri: selectedImage } : PlaceholderImage;
-  const activeRef = useRef<typeof Fontawesome6 | null>(null);
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
@@ -98,10 +99,11 @@ export default function Settings() {
           type="solid"
           titleStyle={{ color: 'white' }}
           onPress={() => {
-            setPieces(initialPositions);
             setPlayerBlack(playerBlackLocal);
             createPieces(pieces, squareRefs, setElements, activeRef);
             getStockfishMove("New");
+            chess.reset()
+            setPieces(chess.board());
           }}
           >
           New Game
