@@ -1,15 +1,20 @@
 import axios from 'axios';
+import { Chess } from 'chess.js';
 const StockfishModule = {
-  sendCommand: function (command: string) {
+  sendCommand: function (command: string, chess:Chess) {
     axios
       .post('https://expo-chess-back.onrender.com/uci', {command})
       .then((response) => {
-        console.log('hit hit hit');
-        console.log(response['response']);
-        return response['response'];
+        if (response.data.response.length === 4){
+          chess.move(response.data.response, { sloppy: true })
+          console.log(response.data.response)
+        } else {
+          console.log("Not move: ", response.data.response)
+        }
+        return response.data.response;
       })
       .catch((error) => {
-        console.log(error);
+        console.log("this is an error: " + error);
         return '';
       });
   },
