@@ -6,11 +6,9 @@ import { ImageBackground, Text, View, TouchableOpacity } from 'react-native';
 import { Button as IconButton, Icon, CheckBox } from '@rneui/themed';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState, useRef } from 'react';
-import createPieces from '../components/Pieces';
+import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Fontawesome6 from '@expo/vector-icons/FontAwesome6';
-import { Chess } from 'chess.js';
+import createBoard from '../components/Board';
 
 export default function Settings() {
   const {
@@ -21,10 +19,6 @@ export default function Settings() {
     setLightDark,
     playerBlack,
     setPlayerBlack,
-    setPieces,
-    pieces,
-    squareRefs,
-    setElements,
     currentSound,
     isPlaying,
     setIsPlaying,
@@ -32,7 +26,7 @@ export default function Settings() {
     resetMusic,
     getStockfishMove,
     chess,
-    activeRef
+    setGameStart
   } = useSettings();
   const [playerBlackLocal, setPlayerBlackLocal] =
     useState<boolean>(playerBlack);
@@ -99,11 +93,11 @@ export default function Settings() {
           type="solid"
           titleStyle={{ color: 'white' }}
           onPress={() => {
+            setGameStart(true)
             setPlayerBlack(playerBlackLocal);
-            createPieces(pieces, squareRefs, setElements, activeRef);
             getStockfishMove("New");
             chess.reset()
-            setPieces(chess.board());
+            createBoard(chess)
           }}
           >
           New Game

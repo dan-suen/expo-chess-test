@@ -3,7 +3,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import  SettingsProvider, { useSettings } from '@/app/context/SettingsContext';
 import { useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
-import { View, Text } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 
 export default function RootLayout() {
   return (
@@ -14,6 +14,7 @@ export default function RootLayout() {
 }
 
 function ImageLayout() {
+  const textSize = Dimensions.get('window').width / 20;
   const {appReady, setAppReady} = useSettings(); 
   SplashScreen.preventAutoHideAsync();
   useEffect(() => {
@@ -31,11 +32,13 @@ function ImageLayout() {
         style={{
           flex: 1,
           height: '100%',
+          justifyContent:'center',
+          alignItems:"center"
         }}
       >
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,
@@ -45,7 +48,7 @@ function ImageLayout() {
         </Text>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,
@@ -57,7 +60,7 @@ function ImageLayout() {
         </Text>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,
@@ -69,7 +72,7 @@ function ImageLayout() {
         </Text>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,
@@ -79,7 +82,7 @@ function ImageLayout() {
         </Text>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,
@@ -91,7 +94,7 @@ function ImageLayout() {
         </Text>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,
@@ -103,7 +106,7 @@ function ImageLayout() {
         </Text>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,
@@ -113,7 +116,7 @@ function ImageLayout() {
         </Text>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,
@@ -125,7 +128,7 @@ function ImageLayout() {
         </Text>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,
@@ -137,7 +140,7 @@ function ImageLayout() {
         </Text>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,
@@ -147,7 +150,7 @@ function ImageLayout() {
         </Text>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,
@@ -159,7 +162,7 @@ function ImageLayout() {
         </Text>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,
@@ -171,7 +174,7 @@ function ImageLayout() {
         </Text>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,
@@ -181,7 +184,7 @@ function ImageLayout() {
         </Text>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,
@@ -193,7 +196,7 @@ function ImageLayout() {
         </Text>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: textSize,
             textAlign: 'justify',
             fontFamily: 'Arial',
             fontWeight: 900,

@@ -25,7 +25,9 @@ export default {
     bundler: 'metro',
     output: 'static',
     favicon: './assets/images/favicon.png',
-    "fastRefresh": false
+    build: {
+        fastRefresh: false
+      }
   },
   plugins: [
     'expo-router',

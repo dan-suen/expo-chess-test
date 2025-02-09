@@ -5,8 +5,7 @@ import { ImageBackground, Dimensions } from 'react-native';
 import createBoard, { Square } from '../components/Board';
 import boardStyles from '../styles/Board.styles';
 import React from 'react';
-import { useEffect} from 'react';
-
+import { useEffect } from 'react';
 
 function App() {
   const {
@@ -14,17 +13,17 @@ function App() {
     PlaceholderImage,
     lightDark,
     playerBlack,
-    pieces,
     getStockfishMove,
-    chess
+    chess,
+    gameStart,
   } = useSettings();
   const imageSource = selectedImage ? { uri: selectedImage } : PlaceholderImage;
   const squareSize = Dimensions.get('window').width / 10;
-   useEffect(() => {
-      if(playerBlack) {
-        getStockfishMove("First")
-      } 
-    }, [playerBlack]);
+  useEffect(() => {
+    if (playerBlack) {
+      getStockfishMove('First');
+    }
+  }, [playerBlack]);
   return (
     <ImageBackground source={imageSource} style={styles.backgroundImage}>
       <View
@@ -44,19 +43,49 @@ function App() {
           {
             height: squareSize * 10,
             width: squareSize * 10,
-            maxHeight: squareSize * 10,
-            maxWidth: squareSize * 10,
+            maxHeight: 1000,
+            maxWidth: 1000,
           },
         ]}
       >
-        {playerBlack
-          ? createBoard()
+        {!gameStart
+          ? createBoard(chess).map((row, rowIndex) => (
+              <View
+                key={rowIndex}
+                style={[
+                  boardStyles.row,
+                  {
+                    height: squareSize * 10,
+                    width: squareSize * 10,
+                    maxHeight: 1000,
+                    maxWidth: 1000,
+                  },
+                ]}
+              >
+                {row.map((square, colIndex) => (
+                  <React.Fragment key={colIndex}>
+                    <Square
+                      object={square}
+                      colIndex={colIndex}
+                      create={false}
+                    />
+                  </React.Fragment>
+                ))}
+              </View>
+            ))
+          : playerBlack
+          ? createBoard(chess)
               .map((row, rowIndex) => (
                 <View
                   key={rowIndex}
                   style={[
                     boardStyles.row,
-                    { maxHeight: squareSize, width: squareSize * 10 },
+                    {
+                      height: squareSize * 10,
+                      width: squareSize * 10,
+                      maxHeight: 1000,
+                      maxWidth: 1000,
+                    },
                   ]}
                 >
                   {row
@@ -64,8 +93,8 @@ function App() {
                       <React.Fragment key={colIndex}>
                         <Square
                           object={square}
-                          squareSize={squareSize}
                           colIndex={colIndex}
+                          create={true}
                         />
                       </React.Fragment>
                     ))
@@ -73,21 +102,22 @@ function App() {
                 </View>
               ))
               .reverse()
-          : createBoard().map((row, rowIndex) => (
+          : createBoard(chess).map((row, rowIndex) => (
               <View
                 key={rowIndex}
                 style={[
                   boardStyles.row,
-                  { maxHeight: squareSize, width: squareSize * 10 },
+                  {
+                    height: squareSize * 10,
+                    width: squareSize * 10,
+                    maxHeight: 1000,
+                    maxWidth: 1000,
+                  },
                 ]}
               >
                 {row.map((square, colIndex) => (
                   <React.Fragment key={colIndex}>
-                    <Square
-                      object={square}
-                      squareSize={squareSize}
-                      colIndex={colIndex}
-                    />
+                    <Square object={square} colIndex={colIndex} create={true} />
                   </React.Fragment>
                 ))}
               </View>

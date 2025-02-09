@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 const boardStyles = StyleSheet.create({
   board: {
     flexDirection: 'column',
-    flexWrap: 'wrap',
     flex: 1,
     borderWidth: 2,
     borderColor: 'black',
@@ -10,8 +9,6 @@ const boardStyles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    alignItems: "flex-start",
-    justifyContent: "flex-start", 
     flex: 1,
   },
   text: {

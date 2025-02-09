@@ -12,7 +12,6 @@ import * as DocumentPicker from 'expo-document-picker';
 import { Chess } from 'chess.js';
 //import StockfishModule from "@/modules/stockfish";
 import StockfishModule from "@/app/function/serverpost";
-import createPieces from '../components/Pieces';
 import { FontAwesome6 } from '@expo/vector-icons';
 
 const chess = new Chess();
@@ -59,6 +58,8 @@ type SettingsContextType = {
   chess: Chess;
   getStockfishMove: (command:string) => void;
   activeRef:React.RefObject<typeof FontAwesome6 | null>;
+  gameStart:boolean;
+  setGameStart:React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
@@ -76,11 +77,9 @@ const SettingsProvider = ({ children }) => {
   const [playerBlack, setPlayerBlack] = useState<boolean>(false);
   const PlaceholderImage = require('@/assets/images/background-image.jpg');
   const [lightDark, setLightDark] = useState<'Light' | 'Dark'>('Light');
-  const [pieces, setPieces] = useState<(Piece|null)[][]>(chess.board());
   const [takenPieces, setTakenPieces] = useState<string[]>([]);
-  const [squareRefs, setSquareRefs] = useState<React.RefObject<View>[]>([]);
-  const [elements, setElements] = useState<ElementObject>({});
   const [appReady, setAppReady] = useState<boolean>(false);
+  const [gameStart, setGameStart] = useState<boolean>(false);
   const currentSound = useRef<Audio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const PlaceholderMusic = '../../assets/06.mp3';
@@ -168,13 +167,6 @@ const SettingsProvider = ({ children }) => {
     }
     loadMusic();
   }, [currentSoundFile]);
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-    createPieces(pieces, squareRefs, setElements, activeRef);
-  }, [pieces]);
   return (
     <SettingsContext.Provider
       value={{
@@ -185,14 +177,8 @@ const SettingsProvider = ({ children }) => {
         setLightDark,
         playerBlack,
         setPlayerBlack,
-        pieces,
-        setPieces,
         takenPieces,
         setTakenPieces,
-        squareRefs,
-        setSquareRefs,
-        elements,
-        setElements,
         appReady,
         setAppReady,
         currentSound,
@@ -205,7 +191,9 @@ const SettingsProvider = ({ children }) => {
         resetMusic,
         chess,
         getStockfishMove,
-        activeRef
+        activeRef,
+        gameStart,
+        setGameStart
       }}
     >
       {children}
