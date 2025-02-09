@@ -26,7 +26,8 @@ export default function Settings() {
     resetMusic,
     getStockfishMove,
     chess,
-    setGameStart
+    setGameStart,
+    boardSize
   } = useSettings();
   const [playerBlackLocal, setPlayerBlackLocal] =
     useState<boolean>(playerBlack);
@@ -91,7 +92,7 @@ export default function Settings() {
           color="blue"
           radius={'sm'}
           type="solid"
-          titleStyle={{ color: 'white' }}
+          titleStyle={{ color: 'white', fontSize:boardSize/4 }}
           onPress={() => {
             setGameStart(true)
             setPlayerBlack(playerBlackLocal);
@@ -102,6 +103,7 @@ export default function Settings() {
           >
           New Game
           <AntDesign
+            size={boardSize/4}
             name="plus"
             color="white"
             style={{
@@ -134,6 +136,7 @@ export default function Settings() {
               color: playerBlackLocal ? 'white' : 'black',
               marginRight: 6,
               marginLeft: -7,
+              fontSize:boardSize/4 -5
             }}
             >
             Play as Black
@@ -155,7 +158,9 @@ export default function Settings() {
           >
           <Text
             style={[
-              { color: lightDark === 'Light' ? 'white' : 'black' },
+              { color: lightDark === 'Light' ? 'white' : 'black',
+                fontSize:boardSize/4
+               },
               settingstyles.text,
             ]}
             >
@@ -169,22 +174,25 @@ export default function Settings() {
         </View>
         <View style={settingstyles.footerContainer}>
           <Button
+          size = {boardSize/4}
             label="Change Background"
             onPress={pickImageAsync}
             name="picture-o"
           />
           <Button
+          size = {boardSize/4}
             label="Reset Background"
             onPress={resetImageAsync}
             name="picture-o"
           />
           <Button
+          size = {boardSize/4}
             label="Mute/Unmute"
             onPress={toggleSound}
             name={isPlaying ? 'pause' : 'play'}
           />
-          <Button label="Select Music" onPress={selectMusic} name="upload" />
-          <Button label="Reset Music" onPress={resetMusic} name="headphones" />
+          <Button size = {boardSize/4} label="Select Music" onPress={selectMusic} name="upload" />
+          <Button size = {boardSize/4} label="Reset Music" onPress={resetMusic} name="headphones" />
         </View>
       </View>
     </ImageBackground>

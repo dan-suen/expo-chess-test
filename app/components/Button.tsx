@@ -6,9 +6,10 @@ type Props = {
   label: string;
   onPress?: () => void;
   name:string;
+  size:number;
 };
 
-export default function Button({ label, onPress, name }: Props) {
+export default function Button({ label, onPress, name, size }: Props) {
   return (
     <View
       style={[
@@ -22,7 +23,7 @@ export default function Button({ label, onPress, name }: Props) {
       >
         <FontAwesome
           name={name}
-          size={18}
+          size={size}
           color="#25292e"
           style={buttonStyles.buttonIcon}
         />

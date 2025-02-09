@@ -5,44 +5,44 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import { ImageSourcePropType, View } from 'react-native';
+import { ImageSourcePropType, View, Dimensions,Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Audio } from 'expo-av';
 import * as DocumentPicker from 'expo-document-picker';
 import { Chess } from 'chess.js';
 //import StockfishModule from "@/modules/stockfish";
-import StockfishModule from "@/app/function/serverpost";
+import StockfishModule from '@/app/function/serverpost';
 import { FontAwesome6 } from '@expo/vector-icons';
 
 const chess = new Chess();
 
-
 interface Piece {
-  square: string;  
-  type: string;    
-  color: string;   
+  square: string;
+  type: string;
+  color: string;
 }
 interface ElementObject {
   [key: string]: JSX.Element | null;
 }
 type SettingsContextType = {
   selectedImage: string | null;
-  setSelectedImage: (image: string | null) => void;
+  setSelectedImage: React.Dispatch<React.SetStateAction<string | null>>;
   PlaceholderImage: ImageSourcePropType;
   lightDark: string;
-  setLightDark: (mode: 'Light' | 'Dark') => void;
+  setLightDark: React.Dispatch<React.SetStateAction<'Light' | 'Dark'>>;
   playerBlack: boolean;
-  setPlayerBlack: (mode: boolean) => void;
-  pieces: (Piece|null)[][];
-  setPieces: (object: (Piece|null)[][]) => void;
+  setPlayerBlack: React.Dispatch<React.SetStateAction<boolean>>;
+  pieces: (Piece | null)[][];
+  setPieces: React.Dispatch<React.SetStateAction<Piece | null>>;
   takenPieces: string[];
-  setTakenPieces: (pieces: string[]) => void;
+  setTakenPieces: React.Dispatch<React.SetStateAction<string[]>>;
   squareRefs: React.RefObject<View>[];
-  setSquareRefs: (
-    updater:
+  setSquareRefs: React.Dispatch<
+    React.SetStateAction<
       | React.RefObject<View>[]
       | ((prev: React.RefObject<View>[]) => React.RefObject<View>[])
-  ) => void;
+    >
+  >;
   elements: ElementObject;
   setElements: React.Dispatch<React.SetStateAction<ElementObject>>;
   appReady: boolean;
@@ -56,22 +56,20 @@ type SettingsContextType = {
   selectMusic: () => void;
   resetMusic: () => void;
   chess: Chess;
-  getStockfishMove: (command:string) => void;
-  activeRef:React.RefObject<typeof FontAwesome6 | null>;
-  gameStart:boolean;
-  setGameStart:React.Dispatch<React.SetStateAction<boolean>>;
-};
+  getStockfishMove: (type: string) => Promise<string>;
+  activeRef: React.RefObject<typeof FontAwesome6 | null>;
+  gameStart: boolean;
+  setGameStart: React.Dispatch<React.SetStateAction<boolean>>;
+  boardSize: number;
+  setBoardSize: React.Dispatch<React.SetStateAction<number>>;
+  text:string;
+  setText:React.Dispatch<React.SetStateAction<string>>;
+}
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
+const { width, height } = Dimensions.get('window'); 
+const adjustedHeight = height * 0.8;
 
-
-async function getStockfishMove(command: string) {
-  try {
-    return StockfishModule.sendCommand(command, chess);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
 const SettingsProvider = ({ children }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [playerBlack, setPlayerBlack] = useState<boolean>(false);
@@ -84,8 +82,20 @@ const SettingsProvider = ({ children }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const PlaceholderMusic = '../../assets/06.mp3';
   const activeRef = useRef<typeof FontAwesome6 | null>(null);
+  const [text, setText] = useState<string>('Welcome to Chess Expo');
   const [currentSoundFile, setCurrentSoundFile] = useState<string | null>(null);
   const isFirstRender = useRef(true);
+  const [boardSize, setBoardSize] = useState(
+    Math.min(width, adjustedHeight) / 10
+  );
+  async function getStockfishMove(command: string) {
+    try {
+      let result = StockfishModule.sendCommand(command, chess, setText);
+      return result
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
   const loadBackgroundImage = async () => {
     try {
       const imageUri = await AsyncStorage.getItem('backgroundImage');
@@ -145,6 +155,17 @@ const SettingsProvider = ({ children }) => {
     setCurrentSoundFile(null);
     await AsyncStorage.removeItem('backgroundmusic');
   };
+  useEffect(() => {
+    const updateSize = () => {
+      setBoardSize(Math.min(width, adjustedHeight));
+    };
+
+    const subscription = Dimensions.addEventListener('change', updateSize);
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   useEffect(() => {
     const fetchBackgroundImage = async () => {
@@ -193,7 +214,10 @@ const SettingsProvider = ({ children }) => {
         getStockfishMove,
         activeRef,
         gameStart,
-        setGameStart
+        setGameStart,
+        boardSize,
+        setBoardSize,
+        text, setText
       }}
     >
       {children}

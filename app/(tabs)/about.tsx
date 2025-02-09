@@ -4,7 +4,7 @@ import { ImageBackground } from 'react-native';
 import aboutStyles from '../styles/about.styles';
 
 export default function AboutScreen() {
-  const { selectedImage, PlaceholderImage, lightDark} =
+  const { selectedImage, PlaceholderImage, lightDark, boardSize} =
   useSettings();
   const imageSource = selectedImage ? { uri: selectedImage } : PlaceholderImage;
   return (
@@ -21,7 +21,7 @@ export default function AboutScreen() {
         ]}
       />
       <View style={aboutStyles.container}>
-        <Text style={aboutStyles.text}>
+        <Text style={[aboutStyles.text, {fontSize: boardSize/4}]}>
           This is a TypeScript-based chess game built using ReactNative and
           Expo. The game allows replicating important features such as *en
           passant*, castling, etc.

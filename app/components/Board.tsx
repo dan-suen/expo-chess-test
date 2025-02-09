@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Dimensions } from 'react-native';
+import { TouchableOpacity, Text, Pressable, Dimensions } from 'react-native';
 import boardStyles from '../styles/Board.styles';
 import Fontawesome6 from '@expo/vector-icons/FontAwesome6';
 import React from 'react';
@@ -24,7 +24,6 @@ interface PieceProps {
 }
 const pieceSize = Dimensions.get('window').width / 20;
 const createBoard = (chess: Chess) => {
-  console.log('hit hit hit ');
   const letters = 'abcdefgh';
   const board: MyObject[][] = [];
   const pieces = chess.board();
@@ -62,12 +61,14 @@ const createBoard = (chess: Chess) => {
 const Piece: React.FC<PieceProps> = ({ color, piece }) => {
   if (color && piece) {
     return (
-      <Pressable>
+      <Pressable style={{zIndex: 0, pointerEvents: 'none'}}>
         <Fontawesome6
           style={{
             alignItems: 'anchor-center',
+            zIndex: 0, 
+            pointerEvents: 'none'
           }}
-          size={pieceSize}
+          size={pieceSize*0.8}
           name={`chess-${map[piece]}`}
           color={color === 'w' ? 'white' : 'black'}
         />
@@ -82,19 +83,43 @@ const Square = ({
   object,
   colIndex,
   create,
+  var1,
+  setVar1,
+  setVar2,
+  setVar2Changed
 }: {
   object: MyObject;
   colIndex: number;
   create: boolean;
+  var1?:string|null;
+  setVar1?:React.Dispatch<React.SetStateAction<string|null>>;
+  setVar2?:React.Dispatch<React.SetStateAction<string|null>>;
+  setVar2Changed?:React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   const id = String(object.col || '') + String(object.row || '');
-  if (object.pieceData){
-    console.log("row: ", object.row)
-    console.log("col: ", object.col)
-    console.log("pieceData: ", object.pieceData)
+  // if (object.pieceData){
+    // console.log("row: ", object.row)
+    // console.log("col: ", object.col)
+    // console.log("pieceData: ", object.pieceData)
+  // }
+  function onpress() { 
+    if (!create || id.length < 2){
+      return
+    }
+    if (var1 && id === var1){
+      return setVar1(null)
+    }
+    if (!var1){
+      return setVar1(id);
+    }
+    if (var1){
+      setVar2(id) 
+      setVar2Changed(true)
+      return
+  }
   }
   return (
-    <View
+    <TouchableOpacity
       key={colIndex}
       style={{
         width: "100%",
@@ -103,6 +128,10 @@ const Square = ({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        zIndex: 1, 
+      }}
+      onPress={() => {
+        onpress()
       }}
     >
       {id.length === 1 ? (
@@ -115,7 +144,7 @@ const Square = ({
       ) : (
         <></>
       )}
-    </View>
+    </TouchableOpacity>
   );
 };
 
