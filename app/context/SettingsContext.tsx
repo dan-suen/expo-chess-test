@@ -5,12 +5,13 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import { ImageSourcePropType, View } from 'react-native';
+import { ImageSourcePropType, View, AppState } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Audio } from 'expo-av';
 import * as DocumentPicker from 'expo-document-picker';
 import { Chess } from 'chess.js';
-import StockfishModule from "@/modules/stockfish";
+//import StockfishModule from "@/modules/stockfish";
+import StockfishModule from "@/app/function/serverpost";
 
 const chess = new Chess();
 
@@ -126,32 +127,7 @@ const initialPositions: PiecesObject = {
 };
 async function getStockfishMove(command: string) {
   try {
-    if (command === 'Start') {
-      await StockfishModule.sendCommand('uci\n');
-      await StockfishModule.sendCommand('isready\n');
-      console.log({ response: 'Connection begins' });
-    } else if (command === 'End') {
-      //console.log("here")
-      await StockfishModule.sendCommand('stop\n');
-      chess.reset();
-      console.log({ response: 'Connection terminated' });
-    } else if (command === 'New') {
-      await StockfishModule.sendCommand('ucinewgame\n');
-      await StockfishModule.sendCommand('isready\n');
-      chess.reset();
-      console.log({ response: 'Stockfish reset.' });
-    } else if (command === 'First') {
-      await StockfishModule.sendCommand('position startpos\n');
-      await StockfishModule.sendCommand('go depth 10\n');
-      const response = await StockfishModule.sendCommand('go depth 10');
-      console.log('Stockfish response:', chess.move({from: response.slice(0,2), to: response.slice(2)}));
-    } else {
-      await StockfishModule.sendCommand('uci');
-      await StockfishModule.sendCommand('isready');
-      await StockfishModule.sendCommand(`position fen 8/3P3k/n2K3p/2p3n1/1b4N1/2p1p1P1/8/3B4 w - - 0 1 moves g4f6 h7g7 f6h5 g7g6 d1c2`);
-      const response = await StockfishModule.sendCommand('go depth 10');
-      console.log('Stockfish response:', chess.move({from: response.slice(0,2), to: response.slice(2)}));
-    }
+    return StockfishModule.sendCommand(command);
   } catch (error) {
     console.error('Error:', error);
   }
@@ -244,7 +220,6 @@ const SettingsProvider = ({ children }) => {
 
     fetchBackgroundImage();
     fetchBackgroundMusic();
-    getStockfishMove("Start")
   }, []);
   useEffect(() => {
     if (isFirstRender.current) {
