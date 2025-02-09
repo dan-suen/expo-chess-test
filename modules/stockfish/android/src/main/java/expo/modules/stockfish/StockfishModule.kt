@@ -14,7 +14,7 @@ class StockfishModule : Module() {
     private var outputStream: OutputStream? = null
     private var reader: BufferedReader? = null
     override fun definition() = ModuleDefinition {
-      Name("ExpoSettings")
+      Name("Stockfish")
       AsyncFunction startStockfish() {
           try {
               process = ProcessBuilder("modules/stockfish/android/assets/stockfish-ubuntu-x86-64-avx2").start()
