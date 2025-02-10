@@ -27,7 +27,8 @@ export default function Settings() {
     getStockfishMove,
     chess,
     setGameStart,
-    boardSize
+    boardSize,
+    setText
   } = useSettings();
   const [playerBlackLocal, setPlayerBlackLocal] =
     useState<boolean>(playerBlack);
@@ -99,6 +100,7 @@ export default function Settings() {
             getStockfishMove("New");
             chess.reset()
             createBoard(chess)
+            setText("Lets go!")
           }}
           >
           New Game

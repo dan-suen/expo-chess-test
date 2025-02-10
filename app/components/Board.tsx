@@ -86,7 +86,8 @@ const Square = ({
   var1,
   setVar1,
   setVar2,
-  setVar2Changed
+  setVar2Changed,
+  turn
 }: {
   object: MyObject;
   colIndex: number;
@@ -94,7 +95,8 @@ const Square = ({
   var1?:string|null;
   setVar1?:React.Dispatch<React.SetStateAction<string|null>>;
   setVar2?:React.Dispatch<React.SetStateAction<string|null>>;
-  setVar2Changed?:React.Dispatch<React.SetStateAction<boolean>>
+  setVar2Changed?:React.Dispatch<React.SetStateAction<boolean>>;
+  turn?: string
 }) => {
   const id = String(object.col || '') + String(object.row || '');
   // if (object.pieceData){
@@ -109,7 +111,9 @@ const Square = ({
     if (var1 && id === var1){
       return setVar1(null)
     }
-    if (!var1){
+    // console.log(object.pieceData?.color)
+    // console.log(turn)
+    if (!var1 && object.pieceData?.color === turn){
       return setVar1(id);
     }
     if (var1){

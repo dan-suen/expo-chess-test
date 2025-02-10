@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import { ImageSourcePropType, View, Dimensions,Text } from 'react-native';
+import { ImageSourcePropType, View, Dimensions, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Audio } from 'expo-av';
 import * as DocumentPicker from 'expo-document-picker';
@@ -62,12 +62,12 @@ type SettingsContextType = {
   setGameStart: React.Dispatch<React.SetStateAction<boolean>>;
   boardSize: number;
   setBoardSize: React.Dispatch<React.SetStateAction<number>>;
-  text:string;
-  setText:React.Dispatch<React.SetStateAction<string>>;
-}
+  text: string;
+  setText: React.Dispatch<React.SetStateAction<string>>;
+};
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
-const { width, height } = Dimensions.get('window'); 
+const { width, height } = Dimensions.get('window');
 const adjustedHeight = height * 0.8;
 
 const SettingsProvider = ({ children }) => {
@@ -91,7 +91,7 @@ const SettingsProvider = ({ children }) => {
   async function getStockfishMove(command: string) {
     try {
       let result = StockfishModule.sendCommand(command, chess, setText);
-      return result
+      return result;
     } catch (error) {
       console.error('Error:', error);
     }
@@ -115,21 +115,25 @@ const SettingsProvider = ({ children }) => {
     }
   };
   const loadMusic = async () => {
-    const soundFile = currentSoundFile
-      ? { uri: currentSoundFile }
-      : require(PlaceholderMusic);
-    if (!currentSound.current) {
-      const { sound } = await Audio.Sound.createAsync(soundFile, {
-        shouldPlay: true,
-      });
-      await sound.setIsLoopingAsync(true);
-      currentSound.current = sound;
-    } else {
-      await currentSound.current.stopAsync();
-      await currentSound.current.unloadAsync();
-      await currentSound.current.loadAsync(soundFile);
-      await currentSound.current.setIsLoopingAsync(true);
-      await currentSound.current.playAsync();
+    try {
+      const soundFile = currentSoundFile
+        ? { uri: currentSoundFile }
+        : require(PlaceholderMusic);
+      if (!currentSound.current) {
+        const { sound } = await Audio.Sound.createAsync(soundFile, {
+          shouldPlay: true,
+        });
+        await sound.setIsLoopingAsync(true);
+        currentSound.current = sound;
+      } else {
+        await currentSound.current.stopAsync();
+        await currentSound.current.unloadAsync();
+        await currentSound.current.loadAsync(soundFile);
+        await currentSound.current.setIsLoopingAsync(true);
+        await currentSound.current.playAsync();
+      }
+    } catch (error) {
+      console.error('Error loading or playing sound:', error);
     }
   };
   const selectMusic = async () => {
@@ -155,17 +159,17 @@ const SettingsProvider = ({ children }) => {
     setCurrentSoundFile(null);
     await AsyncStorage.removeItem('backgroundmusic');
   };
-  useEffect(() => {
-    const updateSize = () => {
-      setBoardSize(Math.min(width, adjustedHeight));
-    };
+  // useEffect(() => {
+  //   const updateSize = () => {
+  //     setBoardSize(Math.min(width, adjustedHeight));
+  //   };
 
-    const subscription = Dimensions.addEventListener('change', updateSize);
+  //   const subscription = Dimensions.addEventListener('change', updateSize);
 
-    return () => {
-      subscription.remove();
-    };
-  }, []);
+  //   return () => {
+  //     subscription.remove();
+  //   };
+  // }, []);
 
   useEffect(() => {
     const fetchBackgroundImage = async () => {
@@ -217,7 +221,8 @@ const SettingsProvider = ({ children }) => {
         setGameStart,
         boardSize,
         setBoardSize,
-        text, setText
+        text,
+        setText,
       }}
     >
       {children}

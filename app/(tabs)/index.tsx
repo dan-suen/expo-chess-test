@@ -36,7 +36,7 @@ function App() {
   useEffect(() => {
     //console.log(var1)
     if (var1 !== null && var2 !== null) {
-      console.log(`about to : ${var1}${var2}`)
+      console.log(`about to : ${var1}${var2}`);
       getStockfishMove(`${var1}${var2}`);
       setVar1(null);
       setVar2(null);
@@ -59,6 +59,7 @@ function App() {
       <View
         style={{
           height: '10%',
+          maxHeight: '20%',
           width: '80%',
           backgroundColor: 'white',
           borderRadius: 16,
@@ -66,7 +67,16 @@ function App() {
           borderWidth: 3,
         }}
       >
-        <Text style={{ fontSize: squareSize / 3, marginLeft: 10 }}>{text}</Text>
+        <Text
+          style={{
+            fontSize: squareSize / 3,
+            marginLeft: 10,
+            height: '10%',
+            maxHeight: '10%',
+          }}
+        >
+          {text}
+        </Text>
       </View>
       <View
         style={[
@@ -129,7 +139,8 @@ function App() {
                           var1={var1}
                           setVar1={setVar1}
                           setVar2={setVar2}
-                          setVar2Changed = {setVar2Changed}
+                          setVar2Changed={setVar2Changed}
+                          turn={chess.turn()}
                         />
                       </React.Fragment>
                     ))
@@ -159,7 +170,8 @@ function App() {
                       var1={var1}
                       setVar1={setVar1}
                       setVar2={setVar2}
-                      setVar2Changed = {setVar2Changed}
+                      setVar2Changed={setVar2Changed}
+                      turn={chess.turn()}
                     />
                   </React.Fragment>
                 ))}
