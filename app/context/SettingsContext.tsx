@@ -80,7 +80,7 @@ const SettingsProvider = ({ children }) => {
   const [gameStart, setGameStart] = useState<boolean>(false);
   const currentSound = useRef<Audio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
-  const PlaceholderMusic = '../../assets/alone-296348.mp3.mp3';
+  const PlaceholderMusic = '../../assets/alone-296348.mp3';
   const activeRef = useRef<typeof FontAwesome6 | null>(null);
   const [text, setText] = useState<string>('Welcome to Chess Expo');
   const [currentSoundFile, setCurrentSoundFile] = useState<string | null>(null);

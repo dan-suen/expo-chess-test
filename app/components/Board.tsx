@@ -116,17 +116,18 @@ const Square = ({
     if(showPromotion){
       return;
     }
-    console.log("turn: ", turn)
-    console.log("player: ", player)
+    // console.log("turn: ", turn)
+    // console.log("player: ", player)
     console.log("piece: ", object.pieceData?.type)
-    console.log("row: ". object.row)
-    console.log("required row: ". object.row)
+    console.log("row: ", object.row)
+    console.log("required row: ", neededrow)
     if (turn === player && object.pieceData?.type === "p" && neededrow===object.row){
       setShowPromotion(true)
     }
     if (!create || id.length < 2){
       return
     }
+    console.log("hello")
     if (var1 && id === var1){
       return setVar1(null)
     }
