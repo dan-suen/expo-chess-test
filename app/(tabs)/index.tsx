@@ -1,11 +1,13 @@
 import styles from '../styles/index.styles';
 import { View, Text } from 'react-native';
 import { useSettings } from '@/app/context/SettingsContext';
-import { ImageBackground, Dimensions } from 'react-native';
+import { ImageBackground, Dimensions, Pressable } from 'react-native';
 import createBoard, { Square } from '../components/Board';
 import boardStyles from '../styles/Board.styles';
 import React from 'react';
 import { useEffect, useState } from 'react';
+import buttonStyles from '../styles/Button.styles';
+import { FontAwesome6 } from '@expo/vector-icons';
 
 function App() {
   const {
@@ -22,6 +24,8 @@ function App() {
   const squareSize = Dimensions.get('window').width / 10;
   const [var1, setVar1] = useState<string | null>(null);
   const [var2, setVar2] = useState<string | null>(null);
+  const [var3, setVar3] = useState<string | null>(null);
+  const [showPromotion, setShowPromotion] = useState<boolean>(false);
   const [var2Changed, setVar2Changed] = useState(false);
   // const [, forceRerender] = useState(0);
 
@@ -36,6 +40,14 @@ function App() {
   useEffect(() => {
     //console.log(var1)
     if (var1 !== null && var2 !== null) {
+      if (var3) {
+        console.log(`about to : ${var1}${var2}${var3}`);
+        getStockfishMove(`${var1}${var2}${var3}`);
+        setVar1(null);
+        setVar2(null);
+        setVar3(null);
+        setVar2Changed(false);
+      }
       console.log(`about to : ${var1}${var2}`);
       getStockfishMove(`${var1}${var2}`);
       setVar1(null);
@@ -71,21 +83,108 @@ function App() {
           style={{
             fontSize: squareSize / 3,
             marginLeft: 10,
-            height: '10%',
-            maxHeight: '10%',
+            // height: '10%',
+            // maxHeight: '10%',
           }}
         >
           {text}
         </Text>
       </View>
+      {showPromotion ? (
+        <View
+          style={{
+            height: '5%',
+            maxHeight: '5%',
+            width: '80%',
+            backgroundColor:"lightblue",
+            borderRadius: 16,
+            borderColor: 'black',
+            borderWidth: 3,
+            flex: 1,
+            flexDirection: 'row',
+          }}
+        >
+          <Pressable
+            style={[buttonStyles.button, { backgroundColor: playerBlack? "white" : "black", flex:1 }]}
+            onPress={() => {
+              setVar3('n')
+              setShowPromotion(false)
+            }}
+          >
+            <FontAwesome6
+              name={`chess-knight`}
+              size={50}
+              color= {playerBlack  ? "black" : "white"}
+              style={buttonStyles.buttonIcon}
+            />
+            <Text style={[{ color:  playerBlack ? "black" : "white" }]}>
+              {'Knight'}
+            </Text>
+          </Pressable>
+
+          <Pressable
+            style={[buttonStyles.button, { backgroundColor: playerBlack? "white" : "black", flex:1 }]}
+            onPress={() => {
+              setVar3('b')
+              setShowPromotion(false)
+            }}
+          >
+            <FontAwesome6
+              name={`chess-bishop`}
+              size={50}
+              color= {playerBlack  ? "black" : "white"}
+              style={buttonStyles.buttonIcon}
+            />
+            <Text style={[buttonStyles.buttonLabel, { color:  playerBlack ? "black" : "white" }]}>
+              {'Bishop'}
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[buttonStyles.button, { backgroundColor: playerBlack? "white" : "black", flex:1 }]}
+            onPress={() => {
+              setVar3('r')
+              setShowPromotion(false)
+            }}
+          >
+            <FontAwesome6
+              name={`chess-rook`}
+              size={50}
+              color= {playerBlack  ? "black" : "white"}
+              style={buttonStyles.buttonIcon}
+            />
+            <Text style={[buttonStyles.buttonLabel, { color:  playerBlack ? "black" : "white" }]}>
+              {'Rook'}
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[buttonStyles.button, { backgroundColor: playerBlack? "white" : "black", flex:1 }]}
+            onPress={() => {
+              setVar3('q')
+              setShowPromotion(false)
+            }}
+          >
+            <FontAwesome6
+              name={`chess-queen`}
+              size={50}
+              color= {playerBlack ? "black" : "white"}
+              style={buttonStyles.buttonIcon}
+            />
+            <Text style={[buttonStyles.buttonLabel, { color:  playerBlack ? "black" : "white" }]}>
+              {'Queen'}
+            </Text>
+          </Pressable>
+        </View>
+      ) : (
+        <></>
+      )}
       <View
         style={[
           boardStyles.board,
           {
             height: squareSize * 10,
             width: squareSize * 10,
-            maxHeight: 1000,
-            maxWidth: 1000,
+            maxHeight: squareSize * 10,
+            maxWidth: squareSize * 10,
           },
         ]}
       >
@@ -98,8 +197,8 @@ function App() {
                   {
                     height: squareSize * 10,
                     width: squareSize * 10,
-                    maxHeight: 1000,
-                    maxWidth: 1000,
+                    maxHeight: squareSize * 10,
+                    maxWidth: squareSize * 10,
                   },
                 ]}
               >
@@ -124,8 +223,8 @@ function App() {
                     {
                       height: squareSize * 10,
                       width: squareSize * 10,
-                      maxHeight: 1000,
-                      maxWidth: 1000,
+                      maxHeight: squareSize * 10,
+                      maxWidth: squareSize * 10,
                     },
                   ]}
                 >
@@ -140,7 +239,10 @@ function App() {
                           setVar1={setVar1}
                           setVar2={setVar2}
                           setVar2Changed={setVar2Changed}
+                          setShowPromotion={setShowPromotion}
                           turn={chess.turn()}
+                          playerBlack={playerBlack}
+                          showPromotion={showPromotion}
                         />
                       </React.Fragment>
                     ))
@@ -156,8 +258,8 @@ function App() {
                   {
                     height: squareSize * 10,
                     width: squareSize * 10,
-                    maxHeight: 1000,
-                    maxWidth: 1000,
+                    maxHeight: squareSize * 10,
+                    maxWidth: squareSize * 10,
                   },
                 ]}
               >
@@ -170,8 +272,11 @@ function App() {
                       var1={var1}
                       setVar1={setVar1}
                       setVar2={setVar2}
+                      setShowPromotion={setShowPromotion}
                       setVar2Changed={setVar2Changed}
                       turn={chess.turn()}
+                      playerBlack={playerBlack}
+                      showPromotion={showPromotion}
                     />
                   </React.Fragment>
                 ))}

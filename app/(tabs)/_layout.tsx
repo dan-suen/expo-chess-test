@@ -14,7 +14,7 @@ export default function RootLayout() {
 }
 
 function ImageLayout() {
-  const textSize = Dimensions.get('window').width / 20;
+  const textSize = Dimensions.get('window').width / 10;
   const {appReady, setAppReady} = useSettings(); 
   SplashScreen.preventAutoHideAsync();
   useEffect(() => {

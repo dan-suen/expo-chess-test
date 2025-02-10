@@ -138,7 +138,7 @@ export default function Settings() {
               color: playerBlackLocal ? 'white' : 'black',
               marginRight: 6,
               marginLeft: -7,
-              fontSize:boardSize/4 -5
+              fontSize:boardSize/4
             }}
             >
             Play as Black

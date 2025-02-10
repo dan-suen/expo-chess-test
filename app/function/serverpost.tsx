@@ -4,12 +4,16 @@ const StockfishModule = {
   sendCommand: function (
     command: string,
     chess: Chess,
-    setText: React.Dispatch<React.SetStateAction<string>>
+    setText: React.Dispatch<React.SetStateAction<string>>,
   ) {
     console.log('Sending move to Stockfish:', command);
     if (/[0-9]/.test(command)) {
       console.log("this happened")
-      chess.move(command, { sloppy: true });
+      if (command.length===5){
+        chess.move({ from: command.substring(0,2), to: command.substring(2,4), promotion: command[4] })
+      } else {
+        chess.move(command, { sloppy: true });
+      }
       setText("Bob is thinking...")
     }
     axios

@@ -1,6 +1,6 @@
 const IS_DEV = process.env.APP_VARIANT === 'development';
 export default {
-  name: IS_DEV ? 'MyApp (Dev)' : 'MyApp',
+  name: IS_DEV ? 'Chess-Expo (Dev)' : 'Chess-Expo',
   slug: 'Chess-expo',
   version: '1.0.0',
   orientation: 'portrait',
