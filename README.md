@@ -1,12 +1,17 @@
 # Welcome to Chess Expo, an app built using React Native and Expo. This app serves as a GUI to interface with the instances of Stockfish hosted at <https://expo-chess-back.onrender.com/uci> (repo: <https://github.com/dan-suen/expo-chess-back>)
 ## As such, this requires a working internet connection to fully function
 
+![Screenshot](assets/images/Screenshot_20250210-161830.png)
 
-
-
+## Features:
+- Play a chess game as Black or White against Stockfish
+- Dark Mode
+- Choose your own music
+- Choose your own background
 
 #### Known Bugs: 
-
+- Dropping Internet connection or resuming the App may cause inconsistent game state
+- Promotions may not work as expected
 
 
 ## Acknowledgments
