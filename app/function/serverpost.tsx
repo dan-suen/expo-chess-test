@@ -24,10 +24,10 @@ const StockfishModule = {
           console.log('No move received from Stockfish.');
           return;
         }
-        console.log('Current history:', chess.history());
-        console.log('Move received:', move);
-        console.log('board received:', chess.ascii());
-        console.log('Avaliable Moves: ', chess.moves());
+        // console.log('Current history:', chess.history());
+        // console.log('Move received:', move);
+        // console.log('board received:', chess.ascii());
+        // console.log('Avaliable Moves: ', chess.moves());
         if (/[0-9]/.test(move)) {
           chess.move( {from: move.substring(0,2), to: move.substring(2,4), promotion: move[4] });
           let message = `Bob plays: ${move}`;
@@ -86,9 +86,9 @@ const StockfishModule = {
         }
       })
       .catch((error) => {
-        console.log('Current history on error:', chess.history());
+        //console.log('Current history on error:', chess.history());
         console.error('Error sending command:', error);
-        setText(`Bob is having a bad day: Can't Connect To Server`)
+        setText(`Bob is having a bad day: Can't Connect To Server.`)
       });
   },
 };

@@ -40,7 +40,7 @@ function App() {
   }, [playerBlack]);
   useEffect(() => {
     if (var1 !== null && var2 !== null) {
-      console.log(`hitting this ${var3}`)
+      //console.log(`hitting this ${var3}`)
       if (var3) {
         //console.log(`about to 1: ${var1}${var2}${var3}`);
         getStockfishMove(`${var1}${var2}${var3}`);
@@ -251,7 +251,7 @@ function App() {
                           showPromotion={showPromotion}
                           possiblePromotion={possiblePromotion}
                           setPossiblePromotion={setPossiblePromotion}
-                          chess={chess}
+                          chess={chess}   
                         />
                       </React.Fragment>
                     ))

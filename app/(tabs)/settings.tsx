@@ -95,9 +95,11 @@ export default function Settings() {
           type="solid"
           titleStyle={{ color: 'white', fontSize:boardSize/4 }}
           onPress={() => {
-            setGameStart(true)
             setPlayerBlack(playerBlackLocal);
-            getStockfishMove("New").then(()=>setText("Lets go!"))
+            getStockfishMove("New").then(()=>{
+              setGameStart(true);
+              setText("Let's go!")
+          })
             chess.reset()
             createBoard(chess)
           }}

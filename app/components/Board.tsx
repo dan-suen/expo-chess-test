@@ -137,7 +137,7 @@ const Square = ({
     } else {
       setPossiblePromotion(false)
     }
-    console.log("promotion status: ", possiblePromotion);
+    //console.log("promotion status: ", possiblePromotion);
     if(neededrow === object.row && possiblePromotion && var1){
       //console.log(chess.moves({ square: var1 }))
       if (chess.moves({ square: var1 }).some((element)=> element.includes(id))){

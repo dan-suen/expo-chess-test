@@ -89,13 +89,16 @@ const SettingsProvider = ({ children }) => {
     Math.min(width, adjustedHeight) / 10
   );
   async function getStockfishMove(command: string) {
-    try {
-      let result = StockfishModule.sendCommand(command, chess, setText);
-      return result;
-    } catch (error) {
-      //console.log(chess.history())
-      console.error('Error:', error);
-    }
+    return new Promise((resolve, reject) => {
+      try {
+        let result = StockfishModule.sendCommand(command, chess, setText);
+        resolve(result);
+      } catch (error) {
+        //console.log(chess.history())
+        console.error('Error:', error);
+        reject(error); 
+      }
+    });
   }
   const loadBackgroundImage = async () => {
     try {
