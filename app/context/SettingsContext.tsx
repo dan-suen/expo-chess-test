@@ -93,6 +93,7 @@ const SettingsProvider = ({ children }) => {
       let result = StockfishModule.sendCommand(command, chess, setText);
       return result;
     } catch (error) {
+      console.log(chess.history())
       console.error('Error:', error);
     }
   }

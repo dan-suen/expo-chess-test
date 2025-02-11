@@ -8,12 +8,9 @@ const StockfishModule = {
   ) {
     console.log('Sending move to Stockfish:', command);
     if (/[0-9]/.test(command)) {
-      console.log("this happened")
-      if (command.length===5){
-        chess.move({ from: command.substring(0,2), to: command.substring(2,4), promotion: command[4] })
-      } else {
-        chess.move(command, { sloppy: true });
-      }
+      // console.log("hitting chess")
+      // console.log(chess.moves())
+      chess.move({ from: command.substring(0,2), to: command.substring(2,4), promotion: command[4] })
       setText("Bob is thinking...")
     }
     axios
@@ -32,7 +29,7 @@ const StockfishModule = {
         console.log('board received:', chess.ascii());
         console.log('Avaliable Moves: ', chess.moves());
         if (/[0-9]/.test(move)) {
-          chess.move(move, { sloppy: true });
+          chess.move( {from: move.substring(0,2), to: move.substring(2,4), promotion: move[4] });
           let message = `Bob plays: ${move}`;
           if (!chess.isGameOver()) {
             message += `${
@@ -91,6 +88,7 @@ const StockfishModule = {
       .catch((error) => {
         console.log('Current history on error:', chess.history());
         console.error('Error sending command:', error);
+        setText(`Bob is having a bad day: Can't Connect To Server`)
       });
   },
 };

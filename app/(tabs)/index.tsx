@@ -27,6 +27,7 @@ function App() {
   const [var3, setVar3] = useState<string | null>(null);
   const [showPromotion, setShowPromotion] = useState<boolean>(false);
   const [var2Changed, setVar2Changed] = useState(false);
+  const [possiblePromotion, setPossiblePromotion]= useState(false);
   // const [, forceRerender] = useState(0);
 
   // const triggerRerender = () => {
@@ -38,21 +39,22 @@ function App() {
     }
   }, [playerBlack]);
   useEffect(() => {
-    //console.log(var1)
     if (var1 !== null && var2 !== null) {
+      console.log(`hitting this ${var3}`)
       if (var3) {
-        console.log(`about to : ${var1}${var2}${var3}`);
+        console.log(`about to 1: ${var1}${var2}${var3}`);
         getStockfishMove(`${var1}${var2}${var3}`);
         setVar1(null);
         setVar2(null);
         setVar3(null);
         setVar2Changed(false);
+      } else {
+        console.log(`about to : ${var1}${var2}`);
+        getStockfishMove(`${var1}${var2}`);
+        setVar1(null);
+        setVar2(null);
+        setVar2Changed(false);
       }
-      console.log(`about to : ${var1}${var2}`);
-      getStockfishMove(`${var1}${var2}`);
-      setVar1(null);
-      setVar2(null);
-      setVar2Changed(false);
     }
   }, [var1, var2Changed]);
   return (
@@ -109,6 +111,7 @@ function App() {
             onPress={() => {
               setVar3('n')
               setShowPromotion(false)
+              setVar2Changed(true);
             }}
           >
             <FontAwesome6
@@ -127,6 +130,7 @@ function App() {
             onPress={() => {
               setVar3('b')
               setShowPromotion(false)
+              setVar2Changed(true);
             }}
           >
             <FontAwesome6
@@ -144,6 +148,7 @@ function App() {
             onPress={() => {
               setVar3('r')
               setShowPromotion(false)
+              setVar2Changed(true);
             }}
           >
             <FontAwesome6
@@ -161,6 +166,7 @@ function App() {
             onPress={() => {
               setVar3('q')
               setShowPromotion(false)
+              setVar2Changed(true);
             }}
           >
             <FontAwesome6
@@ -243,6 +249,9 @@ function App() {
                           turn={chess.turn()}
                           playerBlack={playerBlack}
                           showPromotion={showPromotion}
+                          possiblePromotion={possiblePromotion}
+                          setPossiblePromotion={setPossiblePromotion}
+                          chess={chess}
                         />
                       </React.Fragment>
                     ))
@@ -277,6 +286,9 @@ function App() {
                       turn={chess.turn()}
                       playerBlack={playerBlack}
                       showPromotion={showPromotion}
+                      possiblePromotion={possiblePromotion}
+                      setPossiblePromotion={setPossiblePromotion}
+                      chess={chess}
                     />
                   </React.Fragment>
                 ))}

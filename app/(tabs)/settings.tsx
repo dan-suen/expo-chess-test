@@ -97,10 +97,9 @@ export default function Settings() {
           onPress={() => {
             setGameStart(true)
             setPlayerBlack(playerBlackLocal);
-            getStockfishMove("New");
+            getStockfishMove("New").then(()=>setText("Lets go!"))
             chess.reset()
             createBoard(chess)
-            setText("Lets go!")
           }}
           >
           New Game

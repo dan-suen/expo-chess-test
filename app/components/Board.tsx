@@ -42,7 +42,7 @@ const createBoard = (chess: Chess) => {
         object.row = row - 1;
         object.col = letters[col - 2];
         if (pieces && pieces[9 - row] && pieces[9 - row][col - 2]) {
-          object.pieceData = pieces[9 - row ][col - 2];
+          object.pieceData = pieces[9 - row][col - 2];
         } else {
           object.pieceData = null;
         }
@@ -61,14 +61,14 @@ const createBoard = (chess: Chess) => {
 const Piece: React.FC<PieceProps> = ({ color, piece }) => {
   if (color && piece) {
     return (
-      <Pressable style={{zIndex: 0, pointerEvents: 'none'}}>
+      <Pressable style={{ zIndex: 0, pointerEvents: 'none' }}>
         <Fontawesome6
           style={{
             alignItems: 'anchor-center',
-            zIndex: 0, 
-            pointerEvents: 'none'
+            zIndex: 0,
+            pointerEvents: 'none',
           }}
-          size={pieceSize*0.8}
+          size={pieceSize * 0.8}
           name={`chess-${map[piece]}`}
           color={color === 'w' ? 'white' : 'black'}
         />
@@ -90,77 +90,102 @@ const Square = ({
   setVar2Changed,
   turn,
   playerBlack,
-  showPromotion
+  showPromotion,
+  possiblePromotion,
+  setPossiblePromotion,
+  chess
 }: {
   object: MyObject;
   colIndex: number;
   create: boolean;
-  var1?:string|null;
-  setVar1?:React.Dispatch<React.SetStateAction<string|null>>;
-  setVar2?:React.Dispatch<React.SetStateAction<string|null>>;
-  setShowPromotion?:React.Dispatch<React.SetStateAction<boolean>>
-  setVar2Changed?:React.Dispatch<React.SetStateAction<boolean>>;
-  turn?: string
-  playerBlack:boolean,
-  showPromotion: boolean
+  var1?: string | null;
+  setVar1?: React.Dispatch<React.SetStateAction<string | null>>;
+  setVar2?: React.Dispatch<React.SetStateAction<string | null>>;
+  setShowPromotion?: React.Dispatch<React.SetStateAction<boolean>>;
+  setVar2Changed?: React.Dispatch<React.SetStateAction<boolean>>;
+  turn?: string;
+  playerBlack?: boolean;
+  showPromotion?: boolean;
+  possiblePromotion?:boolean;
+  setPossiblePromotion?:React.Dispatch<React.SetStateAction<boolean>>
+  chess:Chess
+
 }) => {
   const id = String(object.col || '') + String(object.row || '');
   // if (object.pieceData){
-    // console.log("row: ", object.row)
-    // console.log("col: ", object.col)
-    // console.log("pieceData: ", object.pieceData)
+  // console.log("row: ", object.row)
+  // console.log("col: ", object.col)
+  // console.log("pieceData: ", object.pieceData)
   // }
-  const player = playerBlack ? "b" : "w"; 
-  const neededrow = playerBlack ? 1 : 8
+  const player = playerBlack ? 'b' : 'w';
+  const neededrow = playerBlack ? 1 : 8;
+  const prevrow = playerBlack ? 2 : 7;
+  let flag = false;
   function onpress() {
-    if(showPromotion){
+    if (showPromotion) {
       return;
     }
     // console.log("turn: ", turn)
     // console.log("player: ", player)
-    console.log("piece: ", object.pieceData?.type)
-    console.log("row: ", object.row)
-    console.log("required row: ", neededrow)
-    if (turn === player && object.pieceData?.type === "p" && neededrow===object.row){
-      setShowPromotion(true)
+    // console.log('piece: ', var1);
+    // console.log('row: ', object.row);
+    if (
+      object.pieceData?.type === 'p' && object.row === prevrow
+    ) {
+      setPossiblePromotion(true)
+    } else {
+      setPossiblePromotion(false)
     }
-    if (!create || id.length < 2){
-      return
+    console.log("promotion status: ", possiblePromotion);
+    if(neededrow === object.row && possiblePromotion && var1){
+      //console.log(chess.moves({ square: var1 }))
+      if (chess.moves({ square: var1 }).some((element)=> element.includes(id))){
+        setShowPromotion(true);
+        flag = true;
+      }
     }
-    console.log("hello")
-    if (var1 && id === var1){
-      return setVar1(null)
+    if (!create || id.length < 2) {
+      return;
+    }
+    if (var1 && id === var1) {
+      return setVar1(null);
     }
     // console.log(object.pieceData?.color)
     // console.log(turn)
-    if (!var1 && object.pieceData?.color === turn){
+    if (!var1 && object.pieceData?.color === turn) {
       setVar1(id);
-      return 
+      return;
     }
-    if (var1){
-      setVar2(id) 
-      setVar2Changed(true)
-      return
-  }
+    if (var1) {
+      if (flag){
+        setVar2(id);
+        return;
+      }
+      setVar2(id);
+      setVar2Changed(true);
+      return;
+    }
   }
   return (
     <TouchableOpacity
       key={colIndex}
       style={{
-        width: "100%",
-        height: "100%",
+        width: '100%',
+        height: '100%',
         backgroundColor: object.color,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex: 1, 
+        zIndex: 1,
       }}
       onPress={() => {
-        onpress()
+        onpress();
       }}
     >
       {id.length === 1 ? (
-        <Text style={[boardStyles.text, {fontSize: pieceSize/2}]}>{id}</Text>
+        <Text style={[boardStyles.text, { fontSize: pieceSize / 2 }]}>
+          {id}
+        </Text>
       ) : id.length === 2 && create ? (
         <Piece
           color={object.pieceData?.color || ''}
