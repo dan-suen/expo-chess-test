@@ -125,8 +125,8 @@ const Square = ({
     if (showPromotion) {
       return;
     }
-    console.log("turn: ", turn)
-    console.log("player: ", player)
+    // console.log("turn: ", turn)
+    // console.log("player: ", player)
     if(player !== turn){
       return;
     }
