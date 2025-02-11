@@ -10,8 +10,37 @@ const StockfishModule = {
     if (/[0-9]/.test(command)) {
       // console.log("hitting chess")
       // console.log(chess.moves())
-      chess.move({ from: command.substring(0,2), to: command.substring(2,4), promotion: command[4] })
-      setText("Bob is thinking...")
+      try {
+        chess.move({ 
+          from: command.substring(0,2), 
+          to: command.substring(2,4), 
+          promotion: command[4] 
+        });
+      } catch (error) {
+        console.error("Invalid move detected:", error);
+        setText("Bob is confused: Invalid move received.");
+        return;
+      }
+      console.log(chess.isGameOver())
+      if (!chess.isGameOver()){
+        setText("Bob is thinking...")
+      } else {
+        if (chess.isCheckmate()) {
+          setText("Welp, you beat me. You won't so lucky next time.");
+        } else if (chess.isStalemate()) {
+          setText("Stalement. Yeah, that's right, I'm not the loser, you are.")
+        } else if (chess.isThreefoldRepetition()) {
+          setText("Threefold Repetition. Yeah, that's right, You can't outthink this one.")
+        } else if (chess.isInsufficientMaterial()) {
+          setText("Insufficient Material. Yeah, that's right, You don't have what it takes.")
+        } else if (chess.isDrawByFiftyMoves()) {
+          setText("Draw by Fifty Moves. Yeah, that's right, You're just too slow.")
+        } else if (chess.isDraw()) {
+          setText("Draw. Yeah, that's right, Git Gud.")
+        }
+        this.sendCommand('End', chess, setText);
+        return
+      }
     }
     axios
       //.post('http://localhost:5000/uci', { command })
@@ -88,7 +117,7 @@ const StockfishModule = {
       .catch((error) => {
         //console.log('Current history on error:', chess.history());
         console.error('Error sending command:', error);
-        setText(`Bob is having a bad day: Can't Connect To Server.`)
+        //setText(`Bob is having a bad day: Can't Connect To Server.`)
       });
   },
 };

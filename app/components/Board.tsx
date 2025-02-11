@@ -127,9 +127,9 @@ const Square = ({
     }
     // console.log("turn: ", turn)
     // console.log("player: ", player)
-    if(player !== turn){
-      return;
-    }
+    // if(player !== turn){
+    //   return;
+    // }
     if (
       object.pieceData?.type === 'p' && object.row === prevrow
     ) {

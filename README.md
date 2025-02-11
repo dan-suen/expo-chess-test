@@ -10,12 +10,9 @@
 - Choose your own background
 
 #### Known Bugs: 
-- Dropping Internet connection or resuming the application after some time may cause inconsistent game state
-- Promotions may not work as expected (only knights avaliable)
-- Delayed POST responses (due to server being inactive) occurs on first couple of turns after inactivity. Opposing pieces can be moved at this time
+
 
 #### Upcoming Features:
-- Win messages for the player
 - Local offline 2 player mode
 - Difficulty levels
 
