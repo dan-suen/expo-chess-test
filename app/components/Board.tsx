@@ -125,10 +125,11 @@ const Square = ({
     if (showPromotion) {
       return;
     }
-    // console.log("turn: ", turn)
-    // console.log("player: ", player)
-    // console.log('piece: ', var1);
-    // console.log('row: ', object.row);
+    console.log("turn: ", turn)
+    console.log("player: ", player)
+    if(player !== turn){
+      return;
+    }
     if (
       object.pieceData?.type === 'p' && object.row === prevrow
     ) {

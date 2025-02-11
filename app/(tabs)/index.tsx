@@ -42,14 +42,14 @@ function App() {
     if (var1 !== null && var2 !== null) {
       console.log(`hitting this ${var3}`)
       if (var3) {
-        console.log(`about to 1: ${var1}${var2}${var3}`);
+        //console.log(`about to 1: ${var1}${var2}${var3}`);
         getStockfishMove(`${var1}${var2}${var3}`);
         setVar1(null);
         setVar2(null);
         setVar3(null);
         setVar2Changed(false);
       } else {
-        console.log(`about to : ${var1}${var2}`);
+        //console.log(`about to : ${var1}${var2}`);
         getStockfishMove(`${var1}${var2}`);
         setVar1(null);
         setVar2(null);
