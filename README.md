@@ -11,8 +11,8 @@
 
 #### Known Bugs: 
 - Dropping Internet connection or resuming the App may cause inconsistent game state
-- Promotions may not work as expected
-- Delayed POST responses (due to server being inactive) sometimes fails to cause rerendering on the first move (can force rerender by switching screens)
+- Promotions may not work as expected (only knights avaliable)
+- Delayed POST responses (due to server being inactive) occurs on first couple of turns after inactivity. Opposing pieces can be moved at this time
 
 
 ## Acknowledgments
