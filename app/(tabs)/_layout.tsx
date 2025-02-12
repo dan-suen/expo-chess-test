@@ -214,6 +214,7 @@ function ImageLayout() {
     <Tabs
         screenOptions={{
           tabBarActiveTintColor: '#0000f0',
+          lazy:false
         }}
       >
         <Tabs.Screen

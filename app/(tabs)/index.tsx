@@ -116,7 +116,7 @@ function App() {
           >
             <FontAwesome6
               name={`chess-knight`}
-              size={50}
+              size={squareSize/4}
               color= {playerBlack  ? "black" : "white"}
               style={buttonStyles.buttonIcon}
             />
@@ -135,7 +135,7 @@ function App() {
           >
             <FontAwesome6
               name={`chess-bishop`}
-              size={50}
+              size={squareSize/4}
               color= {playerBlack  ? "black" : "white"}
               style={buttonStyles.buttonIcon}
             />
@@ -153,7 +153,7 @@ function App() {
           >
             <FontAwesome6
               name={`chess-rook`}
-              size={50}
+              size={squareSize/4}
               color= {playerBlack  ? "black" : "white"}
               style={buttonStyles.buttonIcon}
             />
@@ -171,7 +171,7 @@ function App() {
           >
             <FontAwesome6
               name={`chess-queen`}
-              size={50}
+              size={squareSize/4}
               color= {playerBlack ? "black" : "white"}
               style={buttonStyles.buttonIcon}
             />

@@ -117,7 +117,7 @@ const StockfishModule = {
       .catch((error) => {
         //console.log('Current history on error:', chess.history());
         console.error('Error sending command:', error);
-        //setText(`Bob is having a bad day: Can't Connect To Server.`)
+        setText(`Bob is having a bad day: Can't Connect To Server.`)
       });
   },
 };

@@ -32,7 +32,6 @@ export default function Settings() {
   } = useSettings();
   const [playerBlackLocal, setPlayerBlackLocal] =
     useState<boolean>(playerBlack);
-
   const imageSource = selectedImage ? { uri: selectedImage } : PlaceholderImage;
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
